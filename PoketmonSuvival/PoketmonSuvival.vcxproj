@@ -129,11 +129,13 @@
   <ItemGroup>
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Monsters.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PoketmonSurvival.cpp" />
     <ClCompile Include="StageUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="StageUI.h" />
   </ItemGroup>
@@ -154,6 +156,14 @@
     <Image Include="monsters_bitmap\Gyarados_Right1.bmp" />
     <Image Include="monsters_bitmap\Gyarados_Right2.bmp" />
     <Image Include="monsters_bitmap\Gyarados_Right3.bmp" />
+    <Image Include="Player_Bitmap\1_back1.bmp" />
+    <Image Include="Player_Bitmap\1_back2.bmp" />
+    <Image Include="Player_Bitmap\1_front1.bmp" />
+    <Image Include="Player_Bitmap\1_front2.bmp" />
+    <Image Include="Player_Bitmap\1_left1.bmp" />
+    <Image Include="Player_Bitmap\1_left2.bmp" />
+    <Image Include="Player_Bitmap\1_right1.bmp" />
+    <Image Include="Player_Bitmap\1_right2.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

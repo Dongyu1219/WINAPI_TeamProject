@@ -1,7 +1,9 @@
+#pragma comment (lib, "msimg32.lib")
 #include <windows.h>
 #include "Map.h"
 //#include "Monsters.h"
 #include "StageUI.h"
+#include "Player.h"
 #include "resource1.h"
 
 //WIDTH  200		
@@ -35,7 +37,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	WndClass.hIconSm = LoadIcon(NULL, IDI_QUESTION);
 	RegisterClassEx(&WndClass);
 
-	hWnd = CreateWindow(lpszClass, lpszWindowName, WS_OVERLAPPEDWINDOW, 100, 50, 1200, 600, NULL, (HMENU)NULL, hInstance, NULL);
+	hWnd = CreateWindow(lpszClass, lpszWindowName, WS_OVERLAPPEDWINDOW, 50, 50, 1200, 600, NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
@@ -47,28 +49,36 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	return Message.wParam;
 }
 
+int C_direction = 1;
+int animationNum = 0;
+int x = 575;
+int y = 300;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT ps;
-	HDC hDC, mDC;
+	HDC hDC, mDC, characterDC;
 	HBITMAP hBitmap;
-	static HBITMAP hbitmapMap0;
+	static HBITMAP hbitmapMap0, hBitmapCharacter;
 	RECT rt;
 
 	static int Timer1Count, gamePlayminute = 0;		//게임 플레이 타이머
 
-
 	switch (uMsg) {
 	case WM_CREATE:
 		hbitmapMap0 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP2));
-
+		hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP17));
+		SetTimer(hWnd, 2, 500, NULL); // 캐릭터 애니메이션 타이머
+		SetTimer(hWnd, 1, 100, NULL);
 		break;
 	case WM_PAINT:
 		GetClientRect(hWnd, &rt);
 		hDC = BeginPaint(hWnd, &ps);
-		mDC = CreateCompatibleDC(hDC);											//더블 버퍼링
+		mDC = CreateCompatibleDC(hDC);	//더블 버퍼링
+		characterDC = CreateCompatibleDC(mDC);
 		hBitmap = CreateCompatibleBitmap(hDC, rt.right, rt.bottom);
 		SelectObject(mDC, (HBITMAP)hBitmap);
+		SelectObject(characterDC, (HBITMAP)hBitmapCharacter);
 		Rectangle(mDC, 0, 0, rt.right, rt.bottom);
 
 		DrawGrassMap(mDC, hbitmapMap0);
@@ -76,14 +86,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		//stage UI
 		DrawEXP_Bar(mDC);
 		TimeBar(mDC, Timer1Count, gamePlayminute);
+		
+		GetCharacterImage(C_direction, animationNum, &hBitmapCharacter, g_hInst);
+		DrawCharacter(mDC, characterDC, hBitmapCharacter, x, y);
 
 		BitBlt(hDC, 0, 0, rt.right, rt.bottom, mDC, 0, 0, SRCCOPY);
 		DeleteDC(mDC);
+		DeleteDC(characterDC);
 		DeleteObject(hBitmap);
 		EndPaint(hWnd, &ps);
 		break;
 	case WM_KEYDOWN:
-		SetTimer(hWnd, 1, 100, NULL);
+		switch (wParam) {
+		case VK_UP:
+			C_direction = 0;
+			break;
+		case VK_DOWN:
+			C_direction = 1;
+			break;
+		case VK_RIGHT:
+			C_direction = 3;
+			break;
+		case VK_LEFT:
+			C_direction = 2;
+			break;
+			SetTimer(hWnd, 1, 100, NULL);
+		}
+		InvalidateRect(hWnd, NULL, false);
 		break;
 	case WM_TIMER:
 		switch (wParam) {
@@ -92,6 +121,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (Timer1Count > 59) {
 				Timer1Count = 0;
 				gamePlayminute++;
+			}
+			break;
+		case 2: // 캐릭터 애니메이션 타이머
+			if (animationNum == 0) {
+				animationNum = 1;
+			}
+			else {
+				animationNum = 0;
 			}
 			break;
 		}

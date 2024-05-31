@@ -27,6 +27,9 @@
     <ClCompile Include="StageUI.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Map.h">
@@ -36,6 +39,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="resource1.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -82,6 +88,30 @@
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="monsters_bitmap\Gyarados_Right3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\1_back1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\1_back2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\1_front1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\1_front2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\1_left1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\1_left2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\1_right1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\1_right2.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
