@@ -114,5 +114,86 @@
     <Image Include="Player_Bitmap\1_right2.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="map_bitmap\ps_wall0.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\ps_wall1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\ps_wall2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Longstone_back1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Longstone_back2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Longstone_back3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Longstone_front1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Longstone_front2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Longstone_front3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Longstone_left1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Longstone_left2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Longstone_left3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Longstone_right1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Longstone_right2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Longstone_right3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Steelstone_back1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Steelstone_back2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Steelstone_back3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Steelstone_front1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Steelstone_front2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Steelstone_front3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Steelstone_left1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Steelstone_left2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Steelstone_left3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Steelstone_right1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Steelstone_right2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\Steelstone_right3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -37,7 +37,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	WndClass.hIconSm = LoadIcon(NULL, IDI_QUESTION);
 	RegisterClassEx(&WndClass);
 
-	hWnd = CreateWindow(lpszClass, lpszWindowName, WS_OVERLAPPEDWINDOW, 50, 50, 1200, 600, NULL, (HMENU)NULL, hInstance, NULL);
+	hWnd = CreateWindow(lpszClass, lpszWindowName, WS_OVERLAPPEDWINDOW, 50, 0, 1200, 800, NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
@@ -49,17 +49,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	return Message.wParam;
 }
 
-int C_direction = 1;
-int animationNum = 0;
-int x = 575;
-int y = 300;
+int C_direction = 1;		//캐릭터 방향	
+int animationNum = 0;		//캐릭터 애니매이션
+int x = 575;				//캐릭터 위치
+int y = 320;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT ps;
 	HDC hDC, mDC, characterDC;
 	HBITMAP hBitmap;
-	static HBITMAP hbitmapMap0, hBitmapCharacter;
+	static HBITMAP hbitmapMap0, hBitmapCharacter, hbitmapWall0, hbitmapWall1, hbitmapWall2;
 	RECT rt;
 
 	static int Timer1Count, gamePlayminute = 0;		//게임 플레이 타이머
@@ -68,6 +68,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 		hbitmapMap0 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP2));
 		hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP17));
+		hbitmapWall0 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP23));
+		hbitmapWall1 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP24));
+		hbitmapWall2 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP25));
+
 		SetTimer(hWnd, 2, 500, NULL); // 캐릭터 애니메이션 타이머
 		SetTimer(hWnd, 1, 100, NULL);
 		break;
@@ -81,7 +85,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SelectObject(characterDC, (HBITMAP)hBitmapCharacter);
 		Rectangle(mDC, 0, 0, rt.right, rt.bottom);
 
-		DrawGrassMap(mDC, hbitmapMap0);
+		DrawGrassMap(mDC, hbitmapMap0, hbitmapWall0, hbitmapWall1, hbitmapWall2);
 
 		//stage UI
 		DrawEXP_Bar(mDC);
