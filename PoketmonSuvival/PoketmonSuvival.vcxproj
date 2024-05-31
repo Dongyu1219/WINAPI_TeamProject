@@ -127,10 +127,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\user\Pocketmon_Survival\Pocketmon_Survival\Pocketmon_Survival\Map.cpp" />
-    <ClCompile Include="..\..\user\Pocketmon_Survival\Pocketmon_Survival\Pocketmon_Survival\Monsters.cpp" />
-    <ClCompile Include="..\..\user\Pocketmon_Survival\Pocketmon_Survival\Pocketmon_Survival\StageUI.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Monsters.cpp" />
     <ClCompile Include="PoketmonSurvival.cpp" />
+    <ClCompile Include="StageUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Map.h" />

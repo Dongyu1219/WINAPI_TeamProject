@@ -18,13 +18,13 @@
     <ClCompile Include="PoketmonSurvival.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\user\Pocketmon_Survival\Pocketmon_Survival\Pocketmon_Survival\Map.cpp">
+    <ClCompile Include="Map.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\user\Pocketmon_Survival\Pocketmon_Survival\Pocketmon_Survival\StageUI.cpp">
+    <ClCompile Include="Monsters.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\user\Pocketmon_Survival\Pocketmon_Survival\Pocketmon_Survival\Monsters.cpp">
+    <ClCompile Include="StageUI.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
