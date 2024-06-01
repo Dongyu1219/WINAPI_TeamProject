@@ -25,6 +25,11 @@ void TimeBar(HDC mDC, int Timer1Count, int gamePlayminute) {
 	DeleteObject(hFont);
 }
 
-void DrawPauseBar(HDC mDC, HBITMAP hbitmapMap0) {
-
+void DrawPauseBar(HDC mDC, HBITMAP hBitmapPause) {
+	HDC hmemDC = CreateCompatibleDC(mDC);
+	SelectObject(hmemDC, hBitmapPause);
+	StretchBlt(mDC, 1120, 5, 50, 50, hmemDC, 0, 0, 512, 512, SRCCOPY);
+	DeleteDC(hmemDC);
 }
+
+void DrawPauseMenu(HDC mDC);

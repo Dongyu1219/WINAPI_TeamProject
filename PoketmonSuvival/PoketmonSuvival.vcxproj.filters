@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PoketmonSurvival.cpp">
+    <ClCompile Include="1. PoketmonSurvival.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
@@ -193,6 +193,33 @@
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="monsters_bitmap\Steelstone_right3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\ps_watermap0.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\ps_firemap0.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\ps_waterwall0.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\ps_waterwall1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\ps_waterwall2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\ps_waterwall3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\ps_waterwall4.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\ps_watermap5.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\PauseBitmap.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

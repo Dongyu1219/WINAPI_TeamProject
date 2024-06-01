@@ -130,7 +130,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Monsters.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PoketmonSurvival.cpp" />
+    <ClCompile Include="1. PoketmonSurvival.cpp" />
     <ClCompile Include="StageUI.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -143,10 +143,19 @@
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="map_bitmap\PauseBitmap.bmp" />
+    <Image Include="map_bitmap\ps_firemap0.bmp" />
     <Image Include="map_bitmap\ps_map1.bmp" />
     <Image Include="map_bitmap\ps_wall0.bmp" />
     <Image Include="map_bitmap\ps_wall1.bmp" />
     <Image Include="map_bitmap\ps_wall2.bmp" />
+    <Image Include="map_bitmap\ps_watermap0.bmp" />
+    <Image Include="map_bitmap\ps_watermap5.bmp" />
+    <Image Include="map_bitmap\ps_waterwall0.bmp" />
+    <Image Include="map_bitmap\ps_waterwall1.bmp" />
+    <Image Include="map_bitmap\ps_waterwall2.bmp" />
+    <Image Include="map_bitmap\ps_waterwall3.bmp" />
+    <Image Include="map_bitmap\ps_waterwall4.bmp" />
     <Image Include="monsters_bitmap\Gyarados_Back1.bmp" />
     <Image Include="monsters_bitmap\Gyarados_Back2.bmp" />
     <Image Include="monsters_bitmap\Gyarados_Back3.bmp" />
