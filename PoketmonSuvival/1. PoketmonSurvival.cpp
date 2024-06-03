@@ -65,7 +65,7 @@ int TextCount = 0;
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT ps;
-	HDC hDC, mDC, characterDC;
+	HDC hDC, mDC, characterDC, mapDC;
 	HBITMAP hBitmap;
 	static int mx, my;								//마우스 입력
 	static HBITMAP hbitmapMap0, hbitmapWall0, hbitmapWall1, hbitmapWall2;
@@ -89,36 +89,37 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		hDC = BeginPaint(hWnd, &ps);
 		mDC = CreateCompatibleDC(hDC);	//더블 버퍼링
 		characterDC = CreateCompatibleDC(mDC);
+		mapDC = CreateCompatibleDC(mDC);
 		hBitmap = CreateCompatibleBitmap(hDC, rt.right, rt.bottom);
 		SelectObject(mDC, (HBITMAP)hBitmap);
 		SelectObject(characterDC, (HBITMAP)hBitmapCharacter);
 		Rectangle(mDC, 0, 0, rt.right, rt.bottom);
 
-		if (intro == 0) {
-			HFONT hFont, oldFont;
-			HDC IntroDC = CreateCompatibleDC(hDC);
-			HBITMAP hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP59)); // 포켓몬 로고 이미지
+		//if (intro == 0) {
+		//	HFONT hFont, oldFont;
+		//	HDC IntroDC = CreateCompatibleDC(hDC);
+		//	HBITMAP hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP59)); // 포켓몬 로고 이미지
 
-			int speed = 100;
+		//	int speed = 100;
 
-			SelectObject(IntroDC, hBitmap);
-			StretchBlt(hDC, 0, 0, 1200, 800, IntroDC, 0, 0, 251, 190, SRCCOPY);
-			Sleep(1000);
+		//	SelectObject(IntroDC, hBitmap);
+		//	StretchBlt(hDC, 0, 0, 1200, 800, IntroDC, 0, 0, 251, 190, SRCCOPY);
+		//	Sleep(1000);
 
-			hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP60)); // s1
-			SelectObject(IntroDC, hBitmap);
-			StretchBlt(hDC, 0, 0, 1200, 800, IntroDC, 0, 0, 251, 190, SRCCOPY);
-			Sleep(speed);
+		//	hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP60)); // s1
+		//	SelectObject(IntroDC, hBitmap);
+		//	StretchBlt(hDC, 0, 0, 1200, 800, IntroDC, 0, 0, 251, 190, SRCCOPY);
+		//	Sleep(speed);
 
-			for (int i = 0; i < 17; i++) {
-				hBitmap = LoadBitmap(g_hInst, (LPCWSTR)(161 + i)); //
-				SelectObject(IntroDC, hBitmap);
-				StretchBlt(hDC, 0, 0, 1200, 800, IntroDC, 0, 0, 256, 190, SRCCOPY);
-				Sleep(speed);
-			}
-			intro = 1;
-			DeleteDC(IntroDC);
-		}
+		//	for (int i = 0; i < 17; i++) {
+		//		hBitmap = LoadBitmap(g_hInst, (LPCWSTR)(161 + i)); //
+		//		SelectObject(IntroDC, hBitmap);
+		//		StretchBlt(hDC, 0, 0, 1200, 800, IntroDC, 0, 0, 256, 190, SRCCOPY);
+		//		Sleep(speed);
+		//	}
+		//	intro = 1;
+		//	DeleteDC(IntroDC);
+		//}
 
 		if(pDown == 0) { // 시작 화면
 			HFONT hFont, oldFont;
@@ -145,16 +146,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			//맵그리기 
 			if (maptype == 0)
 			{
-				DrawGrassMap(mDC, hbitmapMap0, hbitmapWall0, hbitmapWall1, hbitmapWall2);
+				DrawGrassMap(mapDC, hbitmapMap0, hbitmapWall0, hbitmapWall1, hbitmapWall2);
 			}
 			else if (maptype == 1) {
-				DrawWaterMap(mDC, g_hInst);
+				DrawWaterMap(mapDC, g_hInst);
 			}
 			else if (maptype == 2) {
-				DrawFireMap(mDC, g_hInst);
+				DrawFireMap(mapDC, g_hInst);
 			}
 			else if (maptype == 4) {
-				DrawPauseMenu(mDC);
+				DrawPauseMenu(mapDC);
 			}
 
 			//stage UI
