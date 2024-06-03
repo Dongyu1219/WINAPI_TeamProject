@@ -67,6 +67,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	static HBITMAP  hBitmapCharacter, hBitmapPause;
 	RECT rt;
 	static int Timer1Count, gamePlayminute = 0;		//게임 플레이 타이머
+	static int pauseCount = 0;
 
 	switch (uMsg) {
 	case WM_CREATE:
@@ -101,6 +102,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		else if (maptype == 2) {
 			DrawFireMap(mDC, g_hInst);
+		}
+		else if (maptype == 4) {
+			DrawPauseMenu(mDC);
 		}
 		
 		//stage UI
@@ -161,8 +165,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 		mx = LOWORD(lParam);
 		my = HIWORD(lParam);
-		if ((1120 < mx && mx < 1170) && (5 < my && my < 70)) {
-			KillTimer(hWnd, 1);
+		if ((1120 < mx && mx < 1170) && (5 < my && my < 70)) {							//pause 버튼
+			pauseCount++;
+			if (pauseCount % 2) {
+				KillTimer(hWnd, 1);
+				maptype = 4;
+			}
+			else if (pauseCount % 2 == 0) {
+				SetTimer(hWnd, 1, 100, NULL);
+				maptype = 1;
+			}
 		}
 		InvalidateRect(hWnd, NULL, false);
 		break;

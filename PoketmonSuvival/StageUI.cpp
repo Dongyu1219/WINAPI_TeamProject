@@ -32,4 +32,13 @@ void DrawPauseBar(HDC mDC, HBITMAP hBitmapPause) {
 	DeleteDC(hmemDC);
 }
 
-void DrawPauseMenu(HDC mDC);
+void DrawPauseMenu(HDC mDC) {
+
+	hFont = CreateFont(150, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, _T("±Ã¼­"));
+	oldfont = (HFONT)SelectObject(mDC, hFont);
+	//wsprintf(gamePlayTime, TEXT("%d : %d"), gamePlayminute, Timer1Count);
+	TextOut(mDC, 400, 200, _T("pause"), 30);
+	SelectObject(mDC, oldfont);
+	DeleteObject(hFont);
+
+}
