@@ -222,5 +222,62 @@
     <Image Include="map_bitmap\PauseBitmap.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="Intro_Bitmap\poketmon_company_logo.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s4.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s5.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s6.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s7.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s8.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s9.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s10.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s11.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s12.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s13.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s14.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s15.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s16.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\s17.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\startImage.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>
