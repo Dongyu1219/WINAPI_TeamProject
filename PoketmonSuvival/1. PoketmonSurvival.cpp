@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "resource1.h"
 
-//WIDTH  200		
+//WIDTH  200
 //HEIGHT 100
 
 HINSTANCE g_hInst;
@@ -49,18 +49,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	return Message.wParam;
 }
 
-int C_direction = 1;		//캐릭터 방향	
-int animationNum = 0;		//캐릭터 애니매이션
-int x = 575;				//캐릭터 위치
-int y = 320;
-
-//맵 선택
-int maptype = 1;
-
 // 시작 인트로
 int intro = 0;
 int pDown = 0;
 int TextCount = 0;
+
+//맵 선택
+int maptype = 1;
+
+// 방향키
+int up = 0;
+int down = 0;
+int right = 0;
+int left = 0;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -69,10 +70,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	HBITMAP hBitmap;
 	static int mx, my;								//마우스 입력
 	static HBITMAP hbitmapMap0, hbitmapWall0, hbitmapWall1, hbitmapWall2;
-	static HBITMAP  hBitmapCharacter, hBitmapPause;
+	static HBITMAP  hBitmapCharacter, hBitmapPause, hBitmapMap;
+	static HBITMAP hBitmapSavedMap = NULL;
 	RECT rt;
 	static int Timer1Count, gamePlayminute = 0;		//게임 플레이 타이머
 	static int pauseCount = 0;
+
+	static RECT rect = { 600, 400, 1800, 1200 };
+
+	static int C_direction = 1;		//캐릭터 방향	
+	static int animationNum = 0;		//캐릭터 애니매이션
+	static int x = 575;				//캐릭터 위치
+	static int y = 320;
+
+	static int begin = 0;
 
 	switch (uMsg) {
 	case WM_CREATE:
@@ -89,37 +100,39 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		hDC = BeginPaint(hWnd, &ps);
 		mDC = CreateCompatibleDC(hDC);	//더블 버퍼링
 		characterDC = CreateCompatibleDC(mDC);
-		mapDC = CreateCompatibleDC(mDC);
+		mapDC = CreateCompatibleDC(hDC);
+		hBitmapMap = CreateCompatibleBitmap(hDC, 2400, 1608);
 		hBitmap = CreateCompatibleBitmap(hDC, rt.right, rt.bottom);
 		SelectObject(mDC, (HBITMAP)hBitmap);
 		SelectObject(characterDC, (HBITMAP)hBitmapCharacter);
+		SelectObject(mapDC, (HBITMAP)hBitmapMap);
 		Rectangle(mDC, 0, 0, rt.right, rt.bottom);
+		Rectangle(mapDC, 0, 0, 2600, 1608);
 
-		//if (intro == 0) {
-		//	HFONT hFont, oldFont;
-		//	HDC IntroDC = CreateCompatibleDC(hDC);
-		//	HBITMAP hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP59)); // 포켓몬 로고 이미지
+		if (intro == 0) {
+			HDC IntroDC = CreateCompatibleDC(hDC);
+			HBITMAP hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP59)); // 포켓몬 로고 이미지
 
-		//	int speed = 100;
+			int speed = 100;
 
-		//	SelectObject(IntroDC, hBitmap);
-		//	StretchBlt(hDC, 0, 0, 1200, 800, IntroDC, 0, 0, 251, 190, SRCCOPY);
-		//	Sleep(1000);
+			SelectObject(IntroDC, hBitmap);
+			StretchBlt(hDC, 0, 0, 1200, 800, IntroDC, 0, 0, 251, 190, SRCCOPY);
+			Sleep(1000);
 
-		//	hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP60)); // s1
-		//	SelectObject(IntroDC, hBitmap);
-		//	StretchBlt(hDC, 0, 0, 1200, 800, IntroDC, 0, 0, 251, 190, SRCCOPY);
-		//	Sleep(speed);
+			hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP60)); // s1
+			SelectObject(IntroDC, hBitmap);
+			StretchBlt(hDC, 0, 0, 1200, 800, IntroDC, 0, 0, 251, 190, SRCCOPY);
+			Sleep(speed);
 
-		//	for (int i = 0; i < 17; i++) {
-		//		hBitmap = LoadBitmap(g_hInst, (LPCWSTR)(161 + i)); //
-		//		SelectObject(IntroDC, hBitmap);
-		//		StretchBlt(hDC, 0, 0, 1200, 800, IntroDC, 0, 0, 256, 190, SRCCOPY);
-		//		Sleep(speed);
-		//	}
-		//	intro = 1;
-		//	DeleteDC(IntroDC);
-		//}
+			for (int i = 0; i < 17; i++) {
+				hBitmap = LoadBitmap(g_hInst, (LPCWSTR)(161 + i)); //
+				SelectObject(IntroDC, hBitmap);
+				StretchBlt(hDC, 0, 0, 1200, 800, IntroDC, 0, 0, 256, 190, SRCCOPY);
+				Sleep(speed);
+			}
+			intro = 1;
+			DeleteDC(IntroDC);
+		}
 
 		if(pDown == 0) { // 시작 화면
 			HFONT hFont, oldFont;
@@ -131,32 +144,42 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			SetBkMode(hDC, TRANSPARENT);
 			SetTextColor(hDC, RGB(0, 0, 0));
-			hFont = CreateFont(100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Arial");
+			hFont = CreateFont(100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Courier New");
 			oldFont = (HFONT)SelectObject(hDC, hFont);
 			if (TextCount == 0) {
-				TextOut(hDC, 255, 605, L"Press 'P' to Start", lstrlen(L"Press 'P' To Start"));
+				TextOut(hDC, 55, 605, L"Press 'P' to Start", lstrlen(L"Press 'P' To Start"));
 				SetTextColor(hDC, RGB(255, 255, 255));
-				hFont = CreateFont(100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Arial");
+				hFont = CreateFont(100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Courier New");
 				oldFont = (HFONT)SelectObject(hDC, hFont);
-				TextOut(hDC, 250, 600, L"Press 'P' to Start", lstrlen(L"Press 'P' To Start"));
+				TextOut(hDC, 50, 600, L"Press 'P' to Start", lstrlen(L"Press 'P' To Start"));
 			}
+
 			DeleteDC(IntroDC);
+			SelectObject(hDC, oldFont);
+			DeleteObject(hFont);
 		}
 		else {
-			//맵그리기 
-			if (maptype == 0)
-			{
-				DrawGrassMap(mapDC, hbitmapMap0, hbitmapWall0, hbitmapWall1, hbitmapWall2);
+			if (hBitmapSavedMap == NULL) {
+				// 맵을 한 번만 그리기
+				hBitmapSavedMap = CreateCompatibleBitmap(hDC, 2400, 1608);
+				HDC tempMapDC = CreateCompatibleDC(hDC);
+				SelectObject(tempMapDC, hBitmapSavedMap);
+
+				if (maptype == 0) {
+					DrawGrassMap(tempMapDC, hbitmapMap0, hbitmapWall0, hbitmapWall1, hbitmapWall2);
+				}
+				else if (maptype == 1) {
+					DrawWaterMap(tempMapDC, g_hInst);
+				}
+				else if (maptype == 2) {
+					DrawFireMap(tempMapDC, g_hInst);
+				}
+				DeleteDC(tempMapDC);
 			}
-			else if (maptype == 1) {
-				DrawWaterMap(mapDC, g_hInst);
-			}
-			else if (maptype == 2) {
-				DrawFireMap(mapDC, g_hInst);
-			}
-			else if (maptype == 4) {
-				DrawPauseMenu(mapDC);
-			}
+
+			// 저장된 맵 비트맵을 사용하여 그리기
+			SelectObject(mapDC, hBitmapSavedMap);
+			StretchBlt(mDC, 0, 0, rt.right, rt.bottom, mapDC, rect.left, rect.top, 1200, 800, SRCCOPY);
 
 			//stage UI
 			DrawEXP_Bar(mDC);
@@ -167,39 +190,85 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			DrawCharacter(mDC, characterDC, hBitmapCharacter, x, y);
 
 			BitBlt(hDC, 0, 0, rt.right, rt.bottom, mDC, 0, 0, SRCCOPY);
-			DeleteDC(mDC);
-			DeleteDC(characterDC);
+
 			DeleteObject(hBitmap);
+			DeleteObject(hBitmapMap);
+			DeleteDC(mDC);
+			DeleteDC(mapDC);
+			DeleteDC(characterDC);
 			EndPaint(hWnd, &ps);
 		}
 		break;
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case VK_UP:
-			C_direction = 0;
+			if (up == 0) {
+				C_direction = 0;
+				SetTimer(hWnd, 4, 10, NULL);
+				up = 1;
+			}
 			break;
 		case VK_DOWN:
-			C_direction = 1;
+			if (down == 0) {
+				C_direction = 1;
+				SetTimer(hWnd, 5, 10, NULL);
+				down = 1;
+			}
 			break;
 		case VK_RIGHT:
-			C_direction = 3;
+			if (right == 0) {
+				C_direction = 3;
+				SetTimer(hWnd, 7, 10, NULL);
+				right = 1;
+			}
 			break;
 		case VK_LEFT:
-			C_direction = 2;
+			if (left == 0) {
+				C_direction = 2;
+				SetTimer(hWnd, 6, 10, NULL);
+				left = 1;
+			}
 			break;
 		case 'P': 
 		case 'p':
 			pDown = 1;
 			SetTimer(hWnd, 2, 500, NULL); // 캐릭터 애니메이션 타이머
-			SetTimer(hWnd, 1, 100, NULL);
+			SetTimer(hWnd, 1, 100, NULL); // 시간 타이머
 			KillTimer(hWnd, 3);
 			break;
 		case VK_ESCAPE:
-			KillTimer(hWnd, 1);
+			pauseCount++;
+			if (pauseCount % 2) {
+				KillTimer(hWnd, 1);
+				maptype = 4;
+			}
+			else if (pauseCount % 2 == 0) {
+				SetTimer(hWnd, 1, 100, NULL);
+				maptype = 1;
+			}
 			break;
-			SetTimer(hWnd, 1, 100, NULL);
 		}
 		InvalidateRect(hWnd, NULL, false);
+		break;
+	case WM_KEYUP:
+		switch (wParam) {
+		case VK_UP:
+			KillTimer(hWnd, 4);
+			up = 0;
+			break;
+		case VK_DOWN:
+			KillTimer(hWnd, 5);
+			down = 0;
+			break;
+		case VK_LEFT:
+			KillTimer(hWnd, 6);
+			left = 0;
+			break;
+		case VK_RIGHT:
+			KillTimer(hWnd, 7);
+			right = 0;
+			break;
+		}
 		break;
 	case WM_TIMER:
 		switch (wParam) {
@@ -224,6 +293,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			else TextCount = 0;
 			break;
+		case 4: // 방향키 타이머
+		case 5:
+		case 6:
+		case 7:
+			UpdateCharacter(C_direction, &x, &y, &rect);
+			break;
 		}
 		InvalidateRect(hWnd, NULL, false);
 		break;
@@ -240,7 +315,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				SetTimer(hWnd, 1, 100, NULL);
 				maptype = 1;
 			}
-		}
+		} // Pause Button
 		InvalidateRect(hWnd, NULL, false);
 		break;
 	case WM_DESTROY:

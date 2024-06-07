@@ -96,4 +96,5 @@ void DrawFireMap(HDC mDC, HINSTANCE g_hInst) {
 		}
 	}
 
+	DeleteDC(hmemDC);
 }

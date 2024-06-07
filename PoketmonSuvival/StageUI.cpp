@@ -42,3 +42,7 @@ void DrawPauseMenu(HDC mDC) {
 	DeleteObject(hFont);
 
 }
+
+void DrawMiniMap(HDC mDC) {
+	//Rectangle(mDC, 1200 - )
+}
