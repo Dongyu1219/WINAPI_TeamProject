@@ -63,6 +63,9 @@ int down = 0;
 int right = 0;
 int left = 0;
 
+// 캐릭터 선택
+int characterNum = 0;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT ps;
@@ -158,6 +161,47 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SelectObject(hDC, oldFont);
 			DeleteObject(hFont);
 		}
+		else if (pDown == 1) { // 캐릭터 선택 화면
+			HDC IntroDC = CreateCompatibleDC(hDC);
+			HBITMAP hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP94)); // 포켓몬 선택 이미지
+			HBRUSH hBrush, oldBrush;
+			HFONT hFont, oldFont;
+			hBrush = CreateSolidBrush(RGB(0, 0, 0));
+			oldBrush = (HBRUSH)SelectObject(hDC, hBrush);
+			SelectObject(IntroDC, hBitmap);
+			StretchBlt(hDC, 0, 0, 1200, 800, IntroDC, 0, 0, 254, 204, SRCCOPY);
+
+			if (characterNum == 1) {
+				hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP95)); // 이상해씨
+			} else hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP96));
+			SelectObject(IntroDC, hBitmap);
+			TransparentBlt(hDC, 200, 300, 200, 200, IntroDC, 0, 0, 39, 39, RGB(255, 255, 255));
+
+			if (characterNum == 2) {
+				hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP97)); // 파이리
+			} else hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP98));
+			SelectObject(IntroDC, hBitmap);
+			TransparentBlt(hDC, 500, 300, 200, 200, IntroDC, 0, 0, 58, 58, RGB(255, 255, 255));
+
+			if (characterNum == 3) {
+				hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP99)); // 꼬부기
+			} else hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP100));
+			SelectObject(IntroDC, hBitmap);
+			TransparentBlt(hDC, 800, 300, 200, 200, IntroDC, 0, 0, 54, 54, RGB(255, 255, 255));
+
+			hFont = CreateFont(100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Arial");
+			oldFont = (HFONT)SelectObject(hDC, hFont);
+			SetBkColor(hDC, RGB(0, 0, 0));
+			SetTextColor(hDC, RGB(255, 255, 255));
+			hFont = CreateFont(50, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Arial");
+			oldFont = (HFONT)SelectObject(hDC, hFont);
+			TextOut(hDC, 800, 600, L"Press 'P' To Start", lstrlen(L"Press 'P' To Start"));
+			DeleteDC(IntroDC);
+			SelectObject(hDC, oldBrush);
+			DeleteObject(hBrush);
+			SelectObject(hDC, oldFont);
+			DeleteObject(hFont);
+		}
 		else {
 			if (hBitmapSavedMap == NULL) {
 				// 맵을 한 번만 그리기
@@ -186,7 +230,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			TimeBar(mDC, Timer1Count, gamePlayminute);
 			DrawPauseBar(mDC, hBitmapPause);
 
-			GetCharacterImage(C_direction, animationNum, &hBitmapCharacter, g_hInst);
+			GetCharacterImage(C_direction, animationNum, &hBitmapCharacter, g_hInst, characterNum);
 			DrawCharacter(mDC, characterDC, hBitmapCharacter, x, y);
 
 			BitBlt(hDC, 0, 0, rt.right, rt.bottom, mDC, 0, 0, SRCCOPY);
@@ -231,10 +275,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		case 'P': 
 		case 'p':
-			pDown = 1;
-			SetTimer(hWnd, 2, 500, NULL); // 캐릭터 애니메이션 타이머
-			SetTimer(hWnd, 1, 100, NULL); // 시간 타이머
-			KillTimer(hWnd, 3);
+			if (pDown == 0) {
+				pDown = 1;
+				KillTimer(hWnd, 3);
+			}
+			else if (pDown == 1) {
+				pDown = 2;
+				SetTimer(hWnd, 2, 500, NULL); // 캐릭터 애니메이션 타이머
+				SetTimer(hWnd, 1, 100, NULL); // 시간 타이머
+			}
 			break;
 		case VK_ESCAPE:
 			pauseCount++;
@@ -303,19 +352,37 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		InvalidateRect(hWnd, NULL, false);
 		break;
 	case WM_LBUTTONDOWN:
-		mx = LOWORD(lParam);
-		my = HIWORD(lParam);
-		if ((1120 < mx && mx < 1170) && (5 < my && my < 70)) {							//pause 버튼
-			pauseCount++;
-			if (pauseCount % 2) {
-				KillTimer(hWnd, 1);
-				maptype = 4;
+		if (pDown == 1) { // 포켓몬 선택
+			mx = LOWORD(lParam);
+			my = HIWORD(lParam);
+			if ((200 < mx && mx < 400) && (300 < my && my < 500)) { 
+				characterNum = 1; 
+				maptype = 0;
 			}
-			else if (pauseCount % 2 == 0) {
-				SetTimer(hWnd, 1, 100, NULL);
+			if ((500 < mx && mx < 700) && (300 < my && my < 500)) { 
+				characterNum = 2; 
+				maptype = 2;
+			}
+			if ((800 < mx && mx < 1000) && (300 < my && my < 500)) { 
+				characterNum = 3; 
 				maptype = 1;
 			}
-		} // Pause Button
+		}
+		else if (pDown == 2) {
+			mx = LOWORD(lParam);
+			my = HIWORD(lParam);
+			if ((1120 < mx && mx < 1170) && (5 < my && my < 70)) {							//pause 버튼
+				pauseCount++;
+				if (pauseCount % 2) {
+					KillTimer(hWnd, 1);
+					maptype = 4;
+				}
+				else if (pauseCount % 2 == 0) {
+					SetTimer(hWnd, 1, 100, NULL);
+					maptype = 1;
+				}
+			} // Pause Button
+		}
 		InvalidateRect(hWnd, NULL, false);
 		break;
 	case WM_DESTROY:

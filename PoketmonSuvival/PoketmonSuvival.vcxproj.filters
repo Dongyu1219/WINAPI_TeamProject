@@ -279,5 +279,74 @@
     <Image Include="Intro_Bitmap\startImage.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="Player_Bitmap\charmander.back1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmander.back2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmander.front1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmander.front2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmander.left1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmander.left2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmander.right1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmander.right2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\squirtle.back1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\squirtle.back2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\squirtle.front1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\squirtle.front2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\squirtle.left1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\squirtle.left2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\squirtle.right1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\squirtle.right2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\starting_select.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\bulbasaur.profile1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\bulbasaur.profile2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\charmander.profile1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\charmander.profile2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\squirtle.profile1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Intro_Bitmap\squirtle.profile2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

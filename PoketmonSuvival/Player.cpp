@@ -1,45 +1,123 @@
 #include <windows.h>
 #include "resource1.h"
 
-void GetCharacterImage(int C_direction,int animationNum, HBITMAP* hBitmapCharacter, HINSTANCE g_hInst) {
+void GetCharacterImage(int C_direction,int animationNum, HBITMAP* hBitmapCharacter, HINSTANCE g_hInst, int characterNum) {
 	if (*hBitmapCharacter) {
 		DeleteObject(*hBitmapCharacter); // 기존 비트맵 해제
 	}
 
-	if (C_direction == 0) {
-		if (animationNum == 0) {
-			*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP15));
-		}
-		else if (animationNum == 1) {
-			*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP16));
-		}
+	if (characterNum == 1) { // 이상해씨
+		if (C_direction == 0) {
+			if (animationNum == 0) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP15));
+			}
+			else if (animationNum == 1) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP16));
+			}
 
+		}
+		else if (C_direction == 1) {
+			if (animationNum == 0) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP17));
+			}
+
+			else if (animationNum == 1) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP18));
+			}
+
+		}
+		else if (C_direction == 2) {
+			if (animationNum == 0) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP19));
+			}
+
+			else if (animationNum == 1) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP20));
+			}
+		}
+		else if (C_direction == 3) {
+			if (animationNum == 0) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP21));
+			}
+			else if (animationNum == 1) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP22));
+			}
+		}
 	}
-	else if (C_direction == 1) {
-		if (animationNum == 0) {
-			*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP17));
-		}
+	else if (characterNum == 2) { // 파이리
+		if (C_direction == 0) {
+			if (animationNum == 0) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP78));
+			}
+			else if (animationNum == 1) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP79));
+			}
 
-		else if (animationNum == 1) {
-			*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP18));
 		}
+		else if (C_direction == 1) {
+			if (animationNum == 0) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP80));
+			}
 
+			else if (animationNum == 1) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP81));
+			}
+
+		}
+		else if (C_direction == 2) {
+			if (animationNum == 0) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP82));
+			}
+
+			else if (animationNum == 1) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP83));
+			}
+		}
+		else if (C_direction == 3) {
+			if (animationNum == 0) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP84));
+			}
+			else if (animationNum == 1) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP85));
+			}
+		}
 	}
-	else if (C_direction == 2) {
-		if (animationNum == 0) {
-			*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP19));
-		}
+	else if (characterNum == 3) { // 꼬부기
+		if (C_direction == 0) {
+			if (animationNum == 0) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP86));
+			}
+			else if (animationNum == 1) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP87));
+			}
 
-		else if (animationNum == 1) {
-			*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP20));
 		}
-	}
-	else if (C_direction == 3) {
-		if (animationNum == 0) {
-			*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP21));
+		else if (C_direction == 1) {
+			if (animationNum == 0) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP88));
+			}
+
+			else if (animationNum == 1) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP89));
+			}
+
 		}
-		else if (animationNum == 1) {
-			*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP22));
+		else if (C_direction == 2) {
+			if (animationNum == 0) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP90));
+			}
+
+			else if (animationNum == 1) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP91));
+			}
+		}
+		else if (C_direction == 3) {
+			if (animationNum == 0) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP92));
+			}
+			else if (animationNum == 1) {
+				*hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP93));
+			}
 		}
 	}
 }
