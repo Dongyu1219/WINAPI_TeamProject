@@ -44,6 +44,9 @@
     <ClInclude Include="Player.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Monsters.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
@@ -346,6 +349,24 @@
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="Intro_Bitmap\squirtle.profile2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\play-button.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\play-button-select.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\power-button.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\power-button-selected.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\restart-button.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\restart-button-selected.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

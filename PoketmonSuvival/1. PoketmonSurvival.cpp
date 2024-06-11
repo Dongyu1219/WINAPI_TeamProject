@@ -1,7 +1,7 @@
 #pragma comment (lib, "msimg32.lib")
 #include <windows.h>
 #include "Map.h"
-//#include "Monsters.h"
+#include "Monsters.h"
 #include "StageUI.h"
 #include "Player.h"
 #include "resource1.h"
@@ -82,11 +82,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	static RECT rect = { 600, 400, 1800, 1200 };
 
 	static int C_direction = 1;		//캐릭터 방향	
-	static int animationNum = 0;		//캐릭터 애니매이션
+	static int animationNum, animationNum1 = 0;		//캐릭터 애니매이션
 	static int x = 575;				//캐릭터 위치
 	static int y = 320;
-
+	static int mainx = 575;				//캐릭터 초기위치
+	static int mainy = 320;
 	static int begin = 0;
+
+	static int monsterDirection = -1;
 
 	switch (uMsg) {
 	case WM_CREATE:
@@ -220,7 +223,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 				DeleteDC(tempMapDC);
 			}
-
+		
 			// 저장된 맵 비트맵을 사용하여 그리기
 			SelectObject(mapDC, hBitmapSavedMap);
 			StretchBlt(mDC, 0, 0, rt.right, rt.bottom, mapDC, rect.left, rect.top, 1200, 800, SRCCOPY);
@@ -229,9 +232,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			DrawEXP_Bar(mDC);
 			TimeBar(mDC, Timer1Count, gamePlayminute);
 			DrawPauseBar(mDC, hBitmapPause);
-
+			//캐릭터
 			GetCharacterImage(C_direction, animationNum, &hBitmapCharacter, g_hInst, characterNum);
 			DrawCharacter(mDC, characterDC, hBitmapCharacter, x, y);
+			//몬스터
+			CreateEnemy(hWnd);
+			DrawMon(g_hInst, mDC, monsterDirection, animationNum1);
+			MoveEnemies(x, y, monsterDirection);
+
+			//멈춤pause
+			if (maptype == 4) {
+				DrawPauseMenu(mDC, g_hInst);
+			}
 
 			BitBlt(hDC, 0, 0, rt.right, rt.bottom, mDC, 0, 0, SRCCOPY);
 
@@ -283,6 +295,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				pDown = 2;
 				SetTimer(hWnd, 2, 500, NULL); // 캐릭터 애니메이션 타이머
 				SetTimer(hWnd, 1, 100, NULL); // 시간 타이머
+				SetTimer(hWnd, 10, 500, NULL);
 			}
 			break;
 		case VK_ESCAPE:
@@ -348,10 +361,37 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case 7:
 			UpdateCharacter(C_direction, &x, &y, &rect);
 			break;
+		case 8:				//몬스터 생성 타이머 
+			if (maptype == 1) {
+				CreateEnemy(hWnd);
+				break;
+			}
+			else if (maptype == 2) {
+				CreateEnemy(hWnd);
+				break;
+			}
+			else if (maptype == 3) {
+				CreateEnemy(hWnd);
+				break;
+			}
+			break;
+		case 10:		//중형 몬스터 움직임
+			if (animationNum1 == 0) {
+				animationNum1 = 1;
+			}
+			else if(animationNum1 ==1) {
+				animationNum1 = 2;
+			}
+			else{
+				animationNum1 = 0;
+			}
+			break;
 		}
 		InvalidateRect(hWnd, NULL, false);
 		break;
 	case WM_LBUTTONDOWN:
+		mx = LOWORD(lParam);
+		my = HIWORD(lParam);
 		if (pDown == 1) { // 포켓몬 선택
 			mx = LOWORD(lParam);
 			my = HIWORD(lParam);
@@ -371,6 +411,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		else if (pDown == 2) {
 			mx = LOWORD(lParam);
 			my = HIWORD(lParam);
+
 			if ((1120 < mx && mx < 1170) && (5 < my && my < 70)) {							//pause 버튼
 				pauseCount++;
 				if (pauseCount % 2) {
@@ -382,6 +423,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					maptype = 1;
 				}
 			} // Pause Button
+		}
+		//250, 270
+		if (maptype == 4) {
+
+			if ((550 < mx && mx < 650) && (270 < my && my < 370)) {													//다시	시작
+				intro = 0;
+				pDown = 0;
+				x = 575;				//캐릭터 위치
+				y = 320;
+				Timer1Count, gamePlayminute = 0;
+				KillTimer(hWnd, 1);
+			}
+			else if ((250 < mx && mx < 350) && (270 < my && my < 370)) {											// 계속
+				SetTimer(hWnd, 1, 100, NULL);
+				maptype = 1;
+			}
+			else if ((850 < mx && mx < 950) && (270 < my && my < 370)) {											// 종료
+				PostQuitMessage(0);
+			}
 		}
 		InvalidateRect(hWnd, NULL, false);
 		break;

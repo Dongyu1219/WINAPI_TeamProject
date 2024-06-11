@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Monsters.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="StageUI.h" />
@@ -170,6 +171,10 @@
     <Image Include="Intro_Bitmap\startImage.bmp" />
     <Image Include="Intro_Bitmap\starting_select.bmp" />
     <Image Include="map_bitmap\PauseBitmap.bmp" />
+    <Image Include="map_bitmap\play-button-select.bmp" />
+    <Image Include="map_bitmap\play-button.bmp" />
+    <Image Include="map_bitmap\power-button-selected.bmp" />
+    <Image Include="map_bitmap\power-button.bmp" />
     <Image Include="map_bitmap\ps_firemap0.bmp" />
     <Image Include="map_bitmap\ps_map1.bmp" />
     <Image Include="map_bitmap\ps_wall0.bmp" />
@@ -182,6 +187,8 @@
     <Image Include="map_bitmap\ps_waterwall2.bmp" />
     <Image Include="map_bitmap\ps_waterwall3.bmp" />
     <Image Include="map_bitmap\ps_waterwall4.bmp" />
+    <Image Include="map_bitmap\restart-button-selected.bmp" />
+    <Image Include="map_bitmap\restart-button.bmp" />
     <Image Include="monsters_bitmap\Gyarados_Back1.bmp" />
     <Image Include="monsters_bitmap\Gyarados_Back2.bmp" />
     <Image Include="monsters_bitmap\Gyarados_Back3.bmp" />

@@ -1,8 +1,11 @@
 #include <Windows.h>
+#include "resource1.h"
 #include <tchar.h>
 
 TCHAR gamePlayTime[20];
 HFONT hFont, oldfont;
+
+static HBITMAP hBitmapPuaseMenu1, hBitmapPuaseMenu2, hBitmapPuaseMenu3, hBitmapPuaseMenu4, hBitmapPuaseMenu5, hBitmapPuaseMenu6;
 
 void DrawEXP_Bar(HDC mDC) {
 	RoundRect(mDC, 100, 0, 1100, 30, 20, 20);
@@ -32,17 +35,35 @@ void DrawPauseBar(HDC mDC, HBITMAP hBitmapPause) {
 	DeleteDC(hmemDC);
 }
 
-void DrawPauseMenu(HDC mDC) {
+void DrawPauseMenu(HDC mDC, HINSTANCE g_hInst) {
+	HDC hmemDC = CreateCompatibleDC(mDC);
 
-	hFont = CreateFont(150, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, _T("±Ã¼­"));
+	hBitmapPuaseMenu1 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP101));
+	hBitmapPuaseMenu2 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP102));
+	hBitmapPuaseMenu3 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP103));
+	hBitmapPuaseMenu4 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP104));
+	hBitmapPuaseMenu5 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP105));
+	hBitmapPuaseMenu6 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP106));
+
+	/*hFont = CreateFont(150, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, _T("±Ã¼­"));
 	oldfont = (HFONT)SelectObject(mDC, hFont);
-	//wsprintf(gamePlayTime, TEXT("%d : %d"), gamePlayminute, Timer1Count);
 	TextOut(mDC, 400, 200, _T("pause"), 30);
 	SelectObject(mDC, oldfont);
-	DeleteObject(hFont);
+	DeleteObject(hFont);*/
 
+	SelectObject(hmemDC, hBitmapPuaseMenu1);
+	StretchBlt(mDC, 250, 270, 100, 100, hmemDC, 0, 0, 512, 512, SRCCOPY);
+
+	SelectObject(hmemDC, hBitmapPuaseMenu5);
+	StretchBlt(mDC, 550, 270, 100, 100, hmemDC, 0, 0, 512, 512, SRCCOPY);
+
+	SelectObject(hmemDC, hBitmapPuaseMenu3);
+	StretchBlt(mDC, 850, 270, 100, 100, hmemDC, 0, 0, 512, 512, SRCCOPY);
+
+
+	DeleteDC(hmemDC);
 }
 
-void DrawMiniMap(HDC mDC) {
-	//Rectangle(mDC, 1200 - )
-}
+//void DrawMiniMap(HDC mDC) {
+//	
+//}
