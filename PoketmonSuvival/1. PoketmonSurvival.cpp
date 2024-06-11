@@ -78,6 +78,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	RECT rt;
 	static int Timer1Count, gamePlayminute = 0;		//게임 플레이 타이머
 	static int pauseCount = 0;
+	static int pauseMouse = 0;
 
 	static RECT rect = { 600, 400, 1800, 1200 };
 
@@ -243,6 +244,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			//멈춤pause
 			if (maptype == 4) {
 				DrawPauseMenu(mDC, g_hInst);
+				pauseMouseMove(mDC, g_hInst, pauseMouse);
 			}
 
 			BitBlt(hDC, 0, 0, rt.right, rt.bottom, mDC, 0, 0, SRCCOPY);
@@ -435,16 +437,40 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				Timer1Count, gamePlayminute = 0;
 				KillTimer(hWnd, 1);
 			}
-			else if ((250 < mx && mx < 350) && (270 < my && my < 370)) {											// 계속
+			else if ((350 < mx && mx < 450) && (270 < my && my < 370)) {											// 계속
 				SetTimer(hWnd, 1, 100, NULL);
 				maptype = 1;
 			}
-			else if ((850 < mx && mx < 950) && (270 < my && my < 370)) {											// 종료
+			else if ((750 < mx && mx < 850) && (270 < my && my < 370)) {											// 종료
 				PostQuitMessage(0);
 			}
 		}
 		InvalidateRect(hWnd, NULL, false);
 		break;
+	case WM_MOUSEMOVE:
+		mx = LOWORD(lParam);
+		my = HIWORD(lParam);
+		if (maptype == 4) {
+			if ((550 < mx && mx < 650) && (270 < my && my < 370)) {													//다시	시작
+				pauseMouse = 2;
+				break;
+			}
+			else if ((350 < mx && mx < 450) && (270 < my && my < 370)) {											// 계속
+				pauseMouse = 1;
+				break;
+				
+			}
+			else if ((750 < mx && mx < 850) && (270 < my && my < 370)) {											// 종료
+				pauseMouse = 3;
+				break;
+			}
+			else {
+				pauseMouse = 0;
+				break;
+			}
+		}
+		InvalidateRect(hWnd, NULL, false);
+			break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;

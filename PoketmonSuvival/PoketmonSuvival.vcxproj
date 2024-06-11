@@ -172,6 +172,7 @@
     <Image Include="Intro_Bitmap\starting_select.bmp" />
     <Image Include="map_bitmap\PauseBitmap.bmp" />
     <Image Include="map_bitmap\play-button-select.bmp" />
+    <Image Include="map_bitmap\play-button-select2.bmp" />
     <Image Include="map_bitmap\play-button.bmp" />
     <Image Include="map_bitmap\power-button-selected.bmp" />
     <Image Include="map_bitmap\power-button.bmp" />

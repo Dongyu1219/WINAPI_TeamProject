@@ -31,7 +31,8 @@ void TimeBar(HDC mDC, int Timer1Count, int gamePlayminute) {
 void DrawPauseBar(HDC mDC, HBITMAP hBitmapPause) {
 	HDC hmemDC = CreateCompatibleDC(mDC);
 	SelectObject(hmemDC, hBitmapPause);
-	StretchBlt(mDC, 1120, 5, 50, 50, hmemDC, 0, 0, 512, 512, SRCCOPY);
+	//StretchBlt(mDC, 1120, 5, 50, 50, hmemDC, 0, 0, 512, 512, SRCCOPY);
+	TransparentBlt(mDC, 1120, 5, 50, 50, hmemDC, 0, 0, 512, 512, RGB(255, 255, 255));
 	DeleteDC(hmemDC);
 }
 
@@ -39,7 +40,6 @@ void DrawPauseMenu(HDC mDC, HINSTANCE g_hInst) {
 	HDC hmemDC = CreateCompatibleDC(mDC);
 
 	hBitmapPuaseMenu1 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP101));
-	hBitmapPuaseMenu2 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP102));
 	hBitmapPuaseMenu3 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP103));
 	hBitmapPuaseMenu4 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP104));
 	hBitmapPuaseMenu5 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP105));
@@ -52,15 +52,46 @@ void DrawPauseMenu(HDC mDC, HINSTANCE g_hInst) {
 	DeleteObject(hFont);*/
 
 	SelectObject(hmemDC, hBitmapPuaseMenu1);
-	StretchBlt(mDC, 250, 270, 100, 100, hmemDC, 0, 0, 512, 512, SRCCOPY);
-
+	//StretchBlt(mDC, 250, 270, 100, 100, hmemDC, 0, 0, 512, 512, SRCCOPY);
+	TransparentBlt(mDC, 350, 270, 100, 100, hmemDC, 0, 0, 512, 512, RGB(255, 255, 255));
+	
 	SelectObject(hmemDC, hBitmapPuaseMenu5);
-	StretchBlt(mDC, 550, 270, 100, 100, hmemDC, 0, 0, 512, 512, SRCCOPY);
+	//StretchBlt(mDC, 550, 270, 100, 100, hmemDC, 0, 0, 512, 512, SRCCOPY);
+	TransparentBlt(mDC, 550, 270, 100, 100, hmemDC, 0, 0, 512, 512, RGB(255, 255, 255));
 
 	SelectObject(hmemDC, hBitmapPuaseMenu3);
-	StretchBlt(mDC, 850, 270, 100, 100, hmemDC, 0, 0, 512, 512, SRCCOPY);
+	//StretchBlt(mDC, 850, 270, 100, 100, hmemDC, 0, 0, 512, 512, SRCCOPY);
+	TransparentBlt(mDC, 750, 270, 100, 100, hmemDC, 0, 0, 512, 512, RGB(255, 255, 255));
 
+	DeleteDC(hmemDC);
+}
 
+void pauseMouseMove(HDC mDC, HINSTANCE g_hInst, int pauseMouse) {
+	HDC hmemDC = CreateCompatibleDC(mDC);
+
+	hBitmapPuaseMenu1 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP101));
+	hBitmapPuaseMenu2 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP107));
+	hBitmapPuaseMenu3 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP103));
+	hBitmapPuaseMenu4 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP104));
+	hBitmapPuaseMenu5 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP105));
+	hBitmapPuaseMenu6 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP106));
+
+	if (pauseMouse ==3) {
+		SelectObject(hmemDC, hBitmapPuaseMenu4);
+		TransparentBlt(mDC, 750, 270, 100, 100, hmemDC, 0, 0, 512, 512, RGB(255, 255, 255));
+	}
+	else if (pauseMouse == 2) {
+		SelectObject(hmemDC, hBitmapPuaseMenu6);
+		TransparentBlt(mDC, 550, 270, 100, 100, hmemDC, 0, 0, 512, 512, RGB(255, 255, 255));
+	}
+	else if (pauseMouse = 1) {
+		SelectObject(hmemDC, hBitmapPuaseMenu2);
+		
+		TransparentBlt(mDC, 350, 270, 100, 100, hmemDC, 0, 0, 512, 512, RGB(255, 255, 255));
+	}
+	else {
+		DrawPauseMenu(mDC, g_hInst);
+	}
 	DeleteDC(hmemDC);
 }
 
