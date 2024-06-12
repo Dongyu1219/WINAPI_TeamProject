@@ -1,3 +1,6 @@
-﻿  StageUI.cpp
-C:\GitHub\WINAPI_TeamProject\PoketmonSuvival\StageUI.cpp(26,45): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  1. PoketmonSurvival.cpp
+C:\GitHub\WINAPI_TeamProject\PoketmonSuvival\1. PoketmonSurvival.cpp(49,16): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\GitHub\WINAPI_TeamProject\PoketmonSuvival\1. PoketmonSurvival.cpp(136,35): warning C4312: '형식 캐스트': 'int'에서 더 큰 'LPCWSTR'(으)로의 변환입니다.
+  Monsters.cpp
+  코드를 생성하고 있습니다...
   PoketmonSuvival.vcxproj -> C:\GitHub\WINAPI_TeamProject\PoketmonSuvival\x64\Debug\PoketmonSuvival.exe

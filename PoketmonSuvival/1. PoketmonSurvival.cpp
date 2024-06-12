@@ -74,6 +74,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	static int mx, my;								//마우스 입력
 	static HBITMAP hbitmapMap0, hbitmapWall0, hbitmapWall1, hbitmapWall2;
 	static HBITMAP  hBitmapCharacter, hBitmapPause, hBitmapMap;
+	static HBITMAP hBitmapGyara;
 	static HBITMAP hBitmapSavedMap = NULL;
 	RECT rt;
 	static int Timer1Count, gamePlayminute = 0;		//게임 플레이 타이머
@@ -240,6 +241,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			CreateEnemy(hWnd);
 			DrawMon(g_hInst, mDC, monsterDirection, animationNum1);
 			MoveEnemies(x, y, monsterDirection);
+			DrawEpicMonster(mDC, characterDC, hBitmapGyara, x, y);
 
 			//멈춤pause
 			if (maptype == 4) {

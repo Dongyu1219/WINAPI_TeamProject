@@ -6,3 +6,4 @@ void CreateEnemy(HWND g_hWnd);
 void DrawMon(HINSTANCE g_hInst, HDC mDC, int monsterDirection, int animationNum1);
 void MoveEnemies(int mainx, int mainy, int monsterDirection);
 void DrawGyarados(HINSTANCE g_hInst, HDC mDC, int monsterDirection, int animationNum1);
+void DrawEpicMonster(HDC mDC, HDC characterDC, HBITMAP hBitmapGyara, int x, int y);

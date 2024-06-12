@@ -118,6 +118,12 @@ void DrawMon(HINSTANCE g_hInst, HDC mDC, int monsterDirection, int animationNum1
 	for (int i = 0; i < MAX_ENEMIES; ++i) {
 		if (enemy[i].active) { //적 활성화
 			DrawGyarados(g_hInst,mDC, monsterDirection, animationNum1);
+			
 		}
 	}
+}
+
+void DrawEpicMonster(HDC mDC, HDC characterDC, HBITMAP hBitmapGyara, int x, int y) {
+	SelectObject(characterDC, hBitmapGyara);;
+	TransparentBlt(mDC, x, y, 50, 50, characterDC, 0, 0, 50, 50, RGB(255, 255, 255));
 }
