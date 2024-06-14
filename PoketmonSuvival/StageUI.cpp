@@ -3,23 +3,29 @@
 #include <tchar.h>
 
 TCHAR gamePlayTime[20];
-HFONT hFont, oldfont;
 
 static HBITMAP hBitmapPuaseMenu1, hBitmapPuaseMenu2, hBitmapPuaseMenu3, hBitmapPuaseMenu4, hBitmapPuaseMenu5, hBitmapPuaseMenu6;
 
-void DrawEXP_Bar(HDC mDC) {
+void DrawEXP_Bar(HDC mDC, HINSTANCE g_hInst) {
+	//HDC hDC = CreateCompatibleDC(mDC);
+	//HBITMAP hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP108));
+	//SelectObject(hDC, hBitmap);
+	//StretchBlt(mDC, 0, 0, 1200, 80, hDC, 0, 0, 206, 37, SRCCOPY);
+	HFONT hFont, oldfont;
 	RoundRect(mDC, 100, 0, 1100, 30, 20, 20);
-
 	hFont = CreateFont(15, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, _T("±Ã¼­"));
 	oldfont = (HFONT)SelectObject(mDC, hFont);
 	//wsprintf(gamePlayTime, TEXT("%d : %d"), gamePlayminute, Timer1Count);
+	SetBkMode(mDC, TRANSPARENT);
 	TextOut(mDC, 1000, 10, _T("Level:0"), 10);
 	SelectObject(mDC, oldfont);
 	DeleteObject(hFont);
+	//DeleteDC(hDC);
 }
 
 void TimeBar(HDC mDC, int Timer1Count, int gamePlayminute) {
 
+	HFONT hFont, oldfont;
 	hFont = CreateFont(30, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, _T("±Ã¼­"));
 	oldfont = (HFONT)SelectObject(mDC, hFont);
 	wsprintf(gamePlayTime, TEXT("%d : %d"), gamePlayminute, Timer1Count);
@@ -84,7 +90,7 @@ void pauseMouseMove(HDC mDC, HINSTANCE g_hInst, int pauseMouse) {
 		SelectObject(hmemDC, hBitmapPuaseMenu6);
 		TransparentBlt(mDC, 550, 270, 100, 100, hmemDC, 0, 0, 512, 512, RGB(255, 255, 255));
 	}
-	else if (pauseMouse = 1) {
+	else if (pauseMouse == 1) {
 		SelectObject(hmemDC, hBitmapPuaseMenu2);
 		
 		TransparentBlt(mDC, 350, 270, 100, 100, hmemDC, 0, 0, 512, 512, RGB(255, 255, 255));

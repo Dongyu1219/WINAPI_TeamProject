@@ -1,5 +1,6 @@
 #include <windows.h>
 #include "resource1.h"
+#include "Player.h"
 
 void GetCharacterImage(int C_direction,int animationNum, HBITMAP* hBitmapCharacter, HINSTANCE g_hInst, int characterNum) {
 	if (*hBitmapCharacter) {
@@ -193,5 +194,53 @@ void UpdateCharacter(int C_direction, int* x, int* y, RECT* rect) {
 			}
 		}
 		break;
+	}
+}
+
+void FireBullet(int x, int y, int dx, int dy, int MAX_BULLETS, Bullet * bullets) {
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		if (!bullets[i].active) {
+			bullets[i].x = x;
+			bullets[i].y = y;
+			bullets[i].dx = dx;
+			bullets[i].dy = dy;
+			bullets[i].active = true;
+			break;
+		}
+	}
+}
+
+void UpdateBullets(int MAX_BULLETS, Bullet* bullets) {
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		if (bullets[i].active) {
+			bullets[i].x += bullets[i].dx;
+			bullets[i].y += bullets[i].dy;
+
+		POINT point = { bullets[i].x, bullets[i].y };
+
+		// 총알이 화면 밖으로 나가면 비활성화
+		if (bullets[i].x < 0 || bullets[i].x > 1200 || bullets[i].y < 0 || bullets[i].y > 800) {
+			bullets[i].active = false;
+			}
+		}
+	}		
+}
+
+void DrawBullets(HDC hDC, int MAX_BULLETS, Bullet* bullets) {
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		if (bullets[i].active) {
+			if (bullets[i].dx == -10) { // 왼쪽
+				Ellipse(hDC, bullets[i].x - 5, bullets[i].y - 5, bullets[i].x + 5, bullets[i].y + 5);
+			}
+			else if (bullets[i].dx == 10) { // 오른쪽
+				Ellipse(hDC, bullets[i].x - 5, bullets[i].y - 5, bullets[i].x + 5, bullets[i].y + 5);
+			}
+			else if (bullets[i].dy == 10) { // 아래쪽
+				Ellipse(hDC, bullets[i].x - 5, bullets[i].y - 5, bullets[i].x + 5, bullets[i].y + 5);
+			}
+			else if (bullets[i].dy == -10) { // 위쪽
+				Ellipse(hDC, bullets[i].x - 5, bullets[i].y - 5, bullets[i].x + 5, bullets[i].y + 5);
+			}
+		}
 	}
 }

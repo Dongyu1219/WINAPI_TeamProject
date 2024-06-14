@@ -1,5 +1,7 @@
 #pragma comment (lib, "msimg32.lib")
 #include <windows.h>
+#include <time.h>
+#include <random>
 #include "Map.h"
 #include "Monsters.h"
 #include "StageUI.h"
@@ -8,6 +10,7 @@
 
 //WIDTH  200
 //HEIGHT 100
+#define MAX_BULLETS 100 // 총알 개수
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class Name";
@@ -49,6 +52,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	return Message.wParam;
 }
 
+// 총알
+Bullet bullet[MAX_BULLETS];
+Enemy enemy[MAX_ENEMIES];
+
 // 시작 인트로
 int intro = 0;
 int pDown = 0;
@@ -65,17 +72,21 @@ int left = 0;
 
 // 캐릭터 선택
 int characterNum = 0;
+int characterHalfWidth = 25;
+
+int enemySpawnTime = 6000;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	srand((unsigned)time(NULL));
 	PAINTSTRUCT ps;
 	HDC hDC, mDC, characterDC, mapDC;
 	HBITMAP hBitmap;
 	static int mx, my;								//마우스 입력
 	static HBITMAP hbitmapMap0, hbitmapWall0, hbitmapWall1, hbitmapWall2;
 	static HBITMAP  hBitmapCharacter, hBitmapPause, hBitmapMap;
-	static HBITMAP hBitmapGyara;
 	static HBITMAP hBitmapSavedMap = NULL;
+	static HBITMAP hBitmapGyara;
 	RECT rt;
 	static int Timer1Count, gamePlayminute = 0;		//게임 플레이 타이머
 	static int pauseCount = 0;
@@ -84,17 +95,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	static RECT rect = { 600, 400, 1800, 1200 };
 
 	static int C_direction = 1;		//캐릭터 방향	
-	static int animationNum, animationNum1 = 0;		//캐릭터 애니매이션
+	static int animationNum = 0;		//캐릭터 애니매이션
 	static int x = 575;				//캐릭터 위치
 	static int y = 320;
 	static int mainx = 575;				//캐릭터 초기위치
 	static int mainy = 320;
 	static int begin = 0;
 
-	static int monsterDirection = -1;
-
 	switch (uMsg) {
-	case WM_CREATE:
+	case WM_CREATE: {
 		hbitmapMap0 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP2));
 		hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP17));
 		hbitmapWall0 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP23));
@@ -102,8 +111,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		hbitmapWall2 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP25));
 		hBitmapPause = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP58));
 		SetTimer(hWnd, 3, 1000, NULL); // Prsee 'p' to Start 타이머
+		// 총알 초기화
+		for (int i = 0; i < MAX_BULLETS; i++) {
+			bullet[i].active = false;
+		}
+	}
 		break;
-	case WM_PAINT:
+	case WM_PAINT: {
 		GetClientRect(hWnd, &rt);
 		hDC = BeginPaint(hWnd, &ps);
 		mDC = CreateCompatibleDC(hDC);	//더블 버퍼링
@@ -141,8 +155,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			intro = 1;
 			DeleteDC(IntroDC);
 		}
-
-		if(pDown == 0) { // 시작 화면
+		if (pDown == 0) { // 시작 화면
 			HFONT hFont, oldFont;
 			HDC IntroDC = CreateCompatibleDC(hDC);
 			HBITMAP hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP59)); // 포켓몬 로고 이미지
@@ -178,19 +191,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			if (characterNum == 1) {
 				hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP95)); // 이상해씨
-			} else hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP96));
+			}
+			else hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP96));
 			SelectObject(IntroDC, hBitmap);
 			TransparentBlt(hDC, 200, 300, 200, 200, IntroDC, 0, 0, 39, 39, RGB(255, 255, 255));
 
 			if (characterNum == 2) {
 				hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP97)); // 파이리
-			} else hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP98));
+			}
+			else hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP98));
 			SelectObject(IntroDC, hBitmap);
 			TransparentBlt(hDC, 500, 300, 200, 200, IntroDC, 0, 0, 58, 58, RGB(255, 255, 255));
 
 			if (characterNum == 3) {
 				hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP99)); // 꼬부기
-			} else hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP100));
+			}
+			else hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP100));
 			SelectObject(IntroDC, hBitmap);
 			TransparentBlt(hDC, 800, 300, 200, 200, IntroDC, 0, 0, 54, 54, RGB(255, 255, 255));
 
@@ -225,23 +241,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 				DeleteDC(tempMapDC);
 			}
-		
+
 			// 저장된 맵 비트맵을 사용하여 그리기
 			SelectObject(mapDC, hBitmapSavedMap);
 			StretchBlt(mDC, 0, 0, rt.right, rt.bottom, mapDC, rect.left, rect.top, 1200, 800, SRCCOPY);
 
 			//stage UI
-			DrawEXP_Bar(mDC);
+			DrawEXP_Bar(mDC, g_hInst);
 			TimeBar(mDC, Timer1Count, gamePlayminute);
 			DrawPauseBar(mDC, hBitmapPause);
+
 			//캐릭터
 			GetCharacterImage(C_direction, animationNum, &hBitmapCharacter, g_hInst, characterNum);
 			DrawCharacter(mDC, characterDC, hBitmapCharacter, x, y);
+
 			//몬스터
-			CreateEnemy(hWnd);
-			DrawMon(g_hInst, mDC, monsterDirection, animationNum1);
-			MoveEnemies(x, y, monsterDirection);
-			DrawEpicMonster(mDC, characterDC, hBitmapGyara, x, y);
+			for (int i = 0; i < MAX_ENEMIES; i++) {
+				if (enemy[i].active) {
+					GetGyaradosImage(g_hInst, mDC, enemy[i].monsterDirection, animationNum, &hBitmapGyara);
+					DrawGyarados(mDC, enemy[i].x, enemy[i].y, hBitmapGyara);
+				}
+			}
+			//MoveEnemies(x, y, monsterDirection);
+			//DrawEpicMonster(mDC, characterDC, hBitmapGyara, x, y);
+
+			// 총알 그리기
+			DrawBullets(mDC, MAX_BULLETS, bullet);
 
 			//멈춤pause
 			if (maptype == 4) {
@@ -253,41 +278,59 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			DeleteObject(hBitmap);
 			DeleteObject(hBitmapMap);
+			DeleteObject(hBitmapGyara);
 			DeleteDC(mDC);
 			DeleteDC(mapDC);
 			DeleteDC(characterDC);
-			EndPaint(hWnd, &ps);
 		}
+	}
+	EndPaint(hWnd, &ps);
 		break;
 	case WM_KEYDOWN:
 		switch (wParam) {
-		case VK_UP:
+		case 'w': // 캐릭터 이동
+		case 'W':
 			if (up == 0) {
 				C_direction = 0;
 				SetTimer(hWnd, 4, 10, NULL);
 				up = 1;
 			}
 			break;
-		case VK_DOWN:
+		case 's':
+		case 'S':
 			if (down == 0) {
 				C_direction = 1;
 				SetTimer(hWnd, 5, 10, NULL);
 				down = 1;
 			}
 			break;
-		case VK_RIGHT:
+		case 'd':
+		case 'D':
 			if (right == 0) {
 				C_direction = 3;
 				SetTimer(hWnd, 7, 10, NULL);
 				right = 1;
 			}
 			break;
-		case VK_LEFT:
+		case 'a':
+		case 'A':
 			if (left == 0) {
 				C_direction = 2;
 				SetTimer(hWnd, 6, 10, NULL);
 				left = 1;
 			}
+			break;
+		case VK_UP: // 총알 발사
+			FireBullet(x + characterHalfWidth, y, 0, -10, MAX_BULLETS, bullet);
+			break;
+		case VK_DOWN:
+			FireBullet(x + characterHalfWidth, y + characterHalfWidth, 0, +10, MAX_BULLETS, bullet);
+			break;
+		case VK_LEFT:
+			FireBullet(x, y + characterHalfWidth, -10, 0, MAX_BULLETS, bullet);
+			break;
+		case VK_RIGHT:
+			FireBullet(x + characterHalfWidth*2, y + characterHalfWidth, 10, 0, MAX_BULLETS, bullet);
 			break;
 		case 'P': 
 		case 'p':
@@ -299,7 +342,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				pDown = 2;
 				SetTimer(hWnd, 2, 500, NULL); // 캐릭터 애니메이션 타이머
 				SetTimer(hWnd, 1, 100, NULL); // 시간 타이머
+				SetTimer(hWnd, 11, 50, NULL); // 총알 타이머
 				SetTimer(hWnd, 10, 500, NULL);
+				SetTimer(hWnd, 8, enemySpawnTime, NULL); // 몬스터 생성 타이머
 			}
 			break;
 		case VK_ESCAPE:
@@ -318,19 +363,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_KEYUP:
 		switch (wParam) {
-		case VK_UP:
+		case 'w':
+		case 'W':
 			KillTimer(hWnd, 4);
 			up = 0;
 			break;
-		case VK_DOWN:
+		case 's':
+		case 'S':
 			KillTimer(hWnd, 5);
 			down = 0;
 			break;
-		case VK_LEFT:
+		case 'a':
+		case 'A':
 			KillTimer(hWnd, 6);
 			left = 0;
 			break;
-		case VK_RIGHT:
+		case 'd':
+		case 'D':
 			KillTimer(hWnd, 7);
 			right = 0;
 			break;
@@ -366,29 +415,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			UpdateCharacter(C_direction, &x, &y, &rect);
 			break;
 		case 8:				//몬스터 생성 타이머 
-			if (maptype == 1) {
-				CreateEnemy(hWnd);
-				break;
+			for (int i = 0; i < MAX_ENEMIES; i++) {
+				if (!enemy[i].active) {
+					enemy[i].active = 1;
+					CreateEnemy(hWnd, &(enemy[i].x), &(enemy[i].y));
+					break;
+				}
 			}
-			else if (maptype == 2) {
-				CreateEnemy(hWnd);
-				break;
-			}
-			else if (maptype == 3) {
-				CreateEnemy(hWnd);
-				break;
-			}
+			enemySpawnTime = max(1000, enemySpawnTime - 100); // 점점 생성 시간 짧아짐, 최소 1초
 			break;
 		case 10:		//중형 몬스터 움직임
-			if (animationNum1 == 0) {
-				animationNum1 = 1;
-			}
-			else if(animationNum1 ==1) {
-				animationNum1 = 2;
-			}
-			else{
-				animationNum1 = 0;
-			}
+			break;
+		case 11: // 총알 타이머
+			UpdateBullets(MAX_BULLETS, bullet);
 			break;
 		}
 		InvalidateRect(hWnd, NULL, false);

@@ -36,7 +36,6 @@ void DrawGrassMap(HDC mDC, HBITMAP hbitmapMap0, HBITMAP  hbitmapWall0, HBITMAP h
 	DeleteDC(hmemDC);
 }
 
-
 void DrawWaterMap(HDC mDC, HINSTANCE g_hInst) {
 
 	hbitmapMap1 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP51));

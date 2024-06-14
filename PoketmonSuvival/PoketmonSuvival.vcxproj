@@ -190,6 +190,7 @@
     <Image Include="map_bitmap\ps_waterwall4.bmp" />
     <Image Include="map_bitmap\restart-button-selected.bmp" />
     <Image Include="map_bitmap\restart-button.bmp" />
+    <Image Include="map_bitmap\UI_background.bmp" />
     <Image Include="monsters_bitmap\Gyarados_Back1.bmp" />
     <Image Include="monsters_bitmap\Gyarados_Back2.bmp" />
     <Image Include="monsters_bitmap\Gyarados_Back3.bmp" />
