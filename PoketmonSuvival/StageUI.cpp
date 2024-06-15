@@ -6,7 +6,7 @@ TCHAR gamePlayTime[20];
 
 static HBITMAP hBitmapPuaseMenu1, hBitmapPuaseMenu2, hBitmapPuaseMenu3, hBitmapPuaseMenu4, hBitmapPuaseMenu5, hBitmapPuaseMenu6, hMiniMap;
 
-void DrawEXP_Bar(HDC mDC, HINSTANCE g_hInst, int currentEXP) {
+void DrawEXP_Bar(HDC mDC, HINSTANCE g_hInst, int currentEXP, int level) {
 	//HDC hDC = CreateCompatibleDC(mDC);
 	//HBITMAP hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP108));
 	//SelectObject(hDC, hBitmap);
@@ -18,9 +18,9 @@ void DrawEXP_Bar(HDC mDC, HINSTANCE g_hInst, int currentEXP) {
 	RoundRect(mDC, 100, 0, currentEXP, 30, 20, 20);
 	hFont = CreateFont(15, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, _T("±Ã¼­"));
 	oldfont = (HFONT)SelectObject(mDC, hFont);
-	//wsprintf(gamePlayTime, TEXT("%d : %d"), gamePlayminute, Timer1Count);
+	wsprintf(gamePlayTime, TEXT("Level : %d"),level);
 	SetBkMode(mDC, TRANSPARENT);
-	TextOut(mDC, 1000, 10, _T("Level:0"), 10);
+	TextOut(mDC, 1000, 10,gamePlayTime, lstrlen(gamePlayTime));
 	SelectObject(mDC, oldBrush);
 	DeleteObject(hBrush);
 	SelectObject(mDC, oldfont);
@@ -117,5 +117,3 @@ void DrawMiniMap(HDC mDC, HINSTANCE g_hInst, int x, int y) {
 
 	DeleteDC(hmemDC);
 }
-
-//114

@@ -399,5 +399,83 @@
     <Image Include="map_bitmap\miniMap.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="monsters_bitmap\ghost_back1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghost_back2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghost_front1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghost_front2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghost_left1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghost_left2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghost_right1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghost_right2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghoust_back1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghoust_back2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghoust_front1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghoust_front2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghoust_left1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghoust_left2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghoust_right1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\ghoust_right2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\phantom_back1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\phantom_back2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\phantom_front1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\phantom_front2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\phantom_left1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\phantom_left2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\phantom_right1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\phantom_right2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\Exp1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\Exp2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -1,6 +1,8 @@
 #include <windows.h>
 #include "resource1.h"
 #include "Player.h"
+#include "Monsters.h"
+#include "Skill.h"
 
 void GetCharacterImage(int C_direction,int animationNum, HBITMAP* hBitmapCharacter, HINSTANCE g_hInst, int characterNum) {
 	if (*hBitmapCharacter) {
@@ -128,7 +130,7 @@ void DrawCharacter(HDC mDC, HDC characterDC, HBITMAP hBitmapCharacter, int x, in
 	TransparentBlt(mDC, x, y, 50, 50, characterDC, 0, 0, 20, 20, RGB(255, 255, 255)); 
 }
 
-void UpdateCharacter(int C_direction, int* x, int* y, RECT* rect) {
+void UpdateCharacter(int C_direction, int* x, int* y, RECT* rect, Enemy* enemy, Exp* expnc) {
 	switch (C_direction) {
 	case 0: 
 		if (rect->bottom == 1600 && *y > 400) {
@@ -138,6 +140,17 @@ void UpdateCharacter(int C_direction, int* x, int* y, RECT* rect) {
 			if (rect->top > 0) {
 				rect->top -= 5;
 				rect->bottom -= 5;
+				for (int i = 0; i < 1000; i++) {
+					if (enemy[i].active) {
+						enemy[i].y += 5;
+					}
+				}
+
+				for (int i = 0; i < 100; i++) {
+					if (expnc[i].active) {
+						expnc[i].y += 5;
+					}
+				}
 			}
 			else {
 				if (*y > 75) {
@@ -154,6 +167,16 @@ void UpdateCharacter(int C_direction, int* x, int* y, RECT* rect) {
 			if (rect->bottom < 1600) {
 				rect->top += 5;
 				rect->bottom += 5;
+				for (int i = 0; i < 1000; i++) {
+					if (enemy[i].active) {
+						enemy[i].y -= 5;
+					}
+				}
+				for (int i = 0; i < 100; i++) {
+					if (expnc[i].active) {
+						expnc[i].y -= 5;
+					}
+				}
 			}
 			else {
 				if (*y < 775) {
@@ -170,6 +193,16 @@ void UpdateCharacter(int C_direction, int* x, int* y, RECT* rect) {
 			if (rect->left > 0) {
 				rect->left -= 5;
 				rect->right -= 5;
+				for (int i = 0; i < 1000; i++) {
+					if (enemy[i].active) {
+						enemy[i].x += 5;
+					}
+				}
+				for (int i = 0; i < 100; i++) {
+					if (expnc[i].active) {
+						expnc[i].x += 5;
+					}
+				}
 			}
 			else {
 				if (*x > 25) {
@@ -186,6 +219,16 @@ void UpdateCharacter(int C_direction, int* x, int* y, RECT* rect) {
 			if (rect->right < 2400) {
 				rect->left += 5;
 				rect->right += 5;
+				for (int i = 0; i < 1000; i++) {
+					if (enemy[i].active) {
+						enemy[i].x -= 5;
+					}
+				}
+				for (int i = 0; i < 100; i++) {
+					if (expnc[i].active) {
+						expnc[i].x -= 5;
+					}
+				}
 			}
 			else {
 				if (*x < 1175) {
@@ -195,5 +238,33 @@ void UpdateCharacter(int C_direction, int* x, int* y, RECT* rect) {
 		}
 		break;
 	}
+}
+
+void DrawExp(Exp* expnc, HDC mDC, HINSTANCE g_hInst) {
+	HDC hDC = CreateCompatibleDC(mDC);
+	HBITMAP hBitmapExp = 0;
+
+	for (int i = 0; i < 100; i++) {
+		if (hBitmapExp) {
+			DeleteObject(hBitmapExp);
+		}
+
+		if (expnc[i].active) {
+			switch (expnc[i].type) {
+			case 0:
+			case 1:
+				hBitmapExp = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP139));
+				SelectObject(hDC, hBitmapExp);
+				TransparentBlt(mDC, expnc[i].x - 10, expnc[i].y - 10, 20, 20, hDC, 0, 0, 17, 19, RGB(255, 255, 255));
+				break;
+			case 2:
+				hBitmapExp = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP140));
+				SelectObject(hDC, hBitmapExp);
+				TransparentBlt(mDC, expnc[i].x - 10, expnc[i].y - 10, 20, 20, hDC, 0, 0, 20, 22, RGB(255, 255, 255));
+				break;
+			}
+		}
+	}
+	DeleteDC(hDC);
 }
 

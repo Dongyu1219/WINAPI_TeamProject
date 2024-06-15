@@ -42,14 +42,14 @@ void UpdateBullets(int MAX_BULLETS, Bullet* bullets) {
 	}
 }
 
-void DrawBullets(HINSTANCE g_hInst, HDC mDC, int MAX_BULLETS, Bullet* bullets, int bulletLevel, HBITMAP hBitmapBullet) {
-	HDC hDC = CreateCompatibleDC(mDC);
+void DrawBullets(HINSTANCE g_hInst, HDC mDC, int MAX_BULLETS, Bullet* bullets, int bulletLevel, HBITMAP* hBitmapBullet) {
 
-	SelectObject(hDC, hBitmapBullet);
-
-	HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 255));
-	HBRUSH oldBrush = (HBRUSH)SelectObject(mDC, hBrush);
 	for (int i = 0; i < MAX_BULLETS; i++) {
+		HDC hDC = CreateCompatibleDC(mDC);
+
+		HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 255));
+		HBRUSH oldBrush = (HBRUSH)SelectObject(mDC, hBrush);
+
 		if (bullets[i].active) {
 			switch (bullets[i].bulletDirection) {
 			case 1: // 오른쪽 방향
@@ -57,8 +57,11 @@ void DrawBullets(HINSTANCE g_hInst, HDC mDC, int MAX_BULLETS, Bullet* bullets, i
 					Ellipse(mDC, bullets[i].x - 5, bullets[i].y - 5, bullets[i].x + 5, bullets[i].y + 5);
 				}
 				else if (bulletLevel == 3) {
-					hBitmapBullet = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP112));
-					SelectObject(hDC, hBitmapBullet);
+					if (*hBitmapBullet) {
+						DeleteObject(*hBitmapBullet); // 기존 비트맵 해제
+					}
+					*hBitmapBullet = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP112));
+					SelectObject(hDC, *hBitmapBullet);
 					TransparentBlt(mDC, bullets[i].x, bullets[i].y, 54, 22, hDC, 0, 0, 54, 22, RGB(0, 248, 248));
 				}
 				break;
@@ -67,8 +70,11 @@ void DrawBullets(HINSTANCE g_hInst, HDC mDC, int MAX_BULLETS, Bullet* bullets, i
 					Ellipse(mDC, bullets[i].x - 5, bullets[i].y - 5, bullets[i].x + 5, bullets[i].y + 5);
 				}
 				else if (bulletLevel == 3) {
-					hBitmapBullet = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP113));
-					SelectObject(hDC, hBitmapBullet);
+					if (*hBitmapBullet) {
+						DeleteObject(*hBitmapBullet); // 기존 비트맵 해제
+					}
+					*hBitmapBullet = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP113));
+					SelectObject(hDC, *hBitmapBullet);
 					TransparentBlt(mDC, bullets[i].x, bullets[i].y, 55, 22, hDC, 0, 0, 55, 22, RGB(0, 248, 248));
 				}
 				break;
@@ -78,8 +84,11 @@ void DrawBullets(HINSTANCE g_hInst, HDC mDC, int MAX_BULLETS, Bullet* bullets, i
 					Ellipse(mDC, bullets[i].x - 5, bullets[i].y - 5, bullets[i].x + 5, bullets[i].y + 5);
 				}
 				else if (bulletLevel == 3) {
-					hBitmapBullet = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP111));
-					SelectObject(hDC, hBitmapBullet);
+					if (*hBitmapBullet) {
+						DeleteObject(*hBitmapBullet); // 기존 비트맵 해제
+					}
+					*hBitmapBullet = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP111));
+					SelectObject(hDC, *hBitmapBullet);
 					TransparentBlt(mDC, bullets[i].x-5, bullets[i].y, 22, 55, hDC, 0, 0, 22, 55, RGB(0, 248, 248));
 				}
 				break;
@@ -88,8 +97,11 @@ void DrawBullets(HINSTANCE g_hInst, HDC mDC, int MAX_BULLETS, Bullet* bullets, i
 					Ellipse(mDC, bullets[i].x - 5, bullets[i].y - 5, bullets[i].x + 5, bullets[i].y + 5);
 				}
 				else if (bulletLevel == 3) {
-					hBitmapBullet = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP110));
-					SelectObject(hDC, hBitmapBullet);
+					if (*hBitmapBullet) {
+						DeleteObject(*hBitmapBullet); // 기존 비트맵 해제
+					}
+					*hBitmapBullet = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP110));
+					SelectObject(hDC, *hBitmapBullet);
 					TransparentBlt(mDC, bullets[i].x-5, bullets[i].y, 22, 55, hDC, 0, 0, 22, 55, RGB(0, 248, 248));
 				}
 				break;
@@ -109,8 +121,9 @@ void DrawBullets(HINSTANCE g_hInst, HDC mDC, int MAX_BULLETS, Bullet* bullets, i
 			}
 
 		}
-		}
 
-	SelectObject(mDC, oldBrush);
-	DeleteObject(hBrush);
+		SelectObject(mDC, oldBrush);
+		DeleteObject(hBrush);
+		DeleteDC(hDC);
+		}
 }

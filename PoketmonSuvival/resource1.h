@@ -116,12 +116,38 @@
 #define IDB_BITMAP112                   216
 #define IDB_BITMAP113                   217
 #define IDB_BITMAP114                   218
+#define IDB_BITMAP115                   219
+#define IDB_BITMAP116                   220
+#define IDB_BITMAP117                   221
+#define IDB_BITMAP118                   222
+#define IDB_BITMAP119                   223
+#define IDB_BITMAP120                   224
+#define IDB_BITMAP121                   225
+#define IDB_BITMAP122                   226
+#define IDB_BITMAP123                   227
+#define IDB_BITMAP124                   228
+#define IDB_BITMAP125                   229
+#define IDB_BITMAP126                   230
+#define IDB_BITMAP127                   231
+#define IDB_BITMAP128                   232
+#define IDB_BITMAP129                   233
+#define IDB_BITMAP130                   234
+#define IDB_BITMAP131                   235
+#define IDB_BITMAP132                   236
+#define IDB_BITMAP133                   237
+#define IDB_BITMAP134                   238
+#define IDB_BITMAP135                   239
+#define IDB_BITMAP136                   240
+#define IDB_BITMAP137                   241
+#define IDB_BITMAP138                   242
+#define IDB_BITMAP139                   243
+#define IDB_BITMAP140                   244
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        219
+#define _APS_NEXT_RESOURCE_VALUE        245
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101

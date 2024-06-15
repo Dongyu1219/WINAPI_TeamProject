@@ -19,6 +19,11 @@ LPCTSTR lpszWindowName = L"Poketmon Survival";
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);
 
+void ColpsWithEnemy();
+void ColpsWithBullet();
+void DropExp(int type, int x, int y);
+void GetExp();
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 
 {
@@ -56,6 +61,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 // 총알
 Bullet bullet[MAX_BULLETS];
 Enemy enemy[MAX_ENEMIES];
+Exp expnc[100];
 
 // 시작 인트로
 int intro = 0;
@@ -74,6 +80,21 @@ int left = 0;
 // 캐릭터 선택
 int characterNum = 0;
 int characterHalfWidth = 25;
+int x = 575;				//캐릭터 위치
+int y = 320;
+
+// 진화
+int evolution = 1;
+int level = 1;
+
+//총알 데미지
+int damage = 50;
+
+//===============증강===============
+int currentEXP = 0;		//경험치
+int MaxHp = 22;				//체력 
+int currentHp = MaxHp;
+int bulletLevel = 1;			//공격
 
 int enemySpawnTime = 6000;
 int monsterDirection = 3; 
@@ -87,7 +108,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	static HBITMAP hbitmapMap0, hbitmapWall0, hbitmapWall1, hbitmapWall2;
 	static HBITMAP  hBitmapCharacter, hBitmapPause, hBitmapMap;
 	static HBITMAP hBitmapSavedMap = NULL;
-	static HBITMAP BasicMonster, hBitmapGyara;
+	static HBITMAP BasicMonster, hBitmapMonster;
 	static HBITMAP hBitmapBullet;
 	RECT rt;
 	static int Timer1Count, gamePlayminute = 0;		//게임 플레이 타이머
@@ -98,17 +119,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	static int C_direction = 1;		//캐릭터 방향	
 	static int animationNum = 0;		//캐릭터 애니매이션
-	static int x = 575;				//캐릭터 위치
-	static int y = 320;
 	static int mainx = 575;				//캐릭터 초기위치
 	static int mainy = 320;
 	static int begin = 0;
-
-	//===============증강===============
-	static int currentEXP = 900;		//경험치
-	static int MaxHp = 22;				//체력 
-	static int currentHp = MaxHp;		
-	static int bulletLevel = 3;			//공격
 
 	switch (uMsg) {
 	case WM_CREATE: {
@@ -251,15 +264,44 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				DeleteDC(tempMapDC);
 			}
 
+			GetExp();
+			if (currentEXP >= 1100) {
+				level = 10;
+			}
+			else if (currentEXP >= 1000) {
+				level = 9;
+				evolution = 3;
+				bulletLevel = 3;
+			}
+			else if (currentEXP >= 900) {
+				level = 8;
+			}
+			else if (currentEXP >= 800) {
+				level = 7;
+			}
+			else if (currentEXP >= 700) {
+				level = 6;
+				evolution = 3;
+			}
+			else if (currentEXP >= 600) {
+				level = 5;
+			}
+			else if (currentEXP >= 500) {
+				level = 4;
+			}
+			else if (currentEXP >= 400) {
+				level = 3;
+				evolution = 2;
+			}
+			else if (currentEXP >= 300) {
+				level = 2;
+			}
+
 			// 저장된 맵 비트맵을 사용하여 그리기
 			SelectObject(mapDC, hBitmapSavedMap);
 			StretchBlt(mDC, 0, 0, rt.right, rt.bottom, mapDC, rect.left, rect.top, 1200, 800, SRCCOPY);
 
-			//stage UI
-			DrawEXP_Bar(mDC, g_hInst, currentEXP);
-			TimeBar(mDC, Timer1Count, gamePlayminute);
-			DrawPauseBar(mDC, hBitmapPause);
-			//DrawMiniMap(mDC, g_hInst, x, y);
+			DrawExp(expnc, mDC, g_hInst);
 
 			//캐릭터
 			GetCharacterImage(C_direction, animationNum, &hBitmapCharacter, g_hInst, characterNum);
@@ -269,14 +311,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			for (int i = 0; i < MAX_ENEMIES; i++) {
 				if (enemy[i].active) {
 					// 플레이어의 위치와 적의 위치를 비교
-					if (enemy[i].x < x) { // 플레이어가 오른쪽에 있으면
-						enemy[i].x++; // 적을 오른쪽으로 이동
-						enemy[i].monsterDirection = 0;
-					}
-					else if (enemy[i].x > x) {
-						enemy[i].x--;
-						enemy[i].monsterDirection = 2;
-					}
 
 					if (enemy[i].y < y) { // 플레이어가 아래쪽에 있으면
 						enemy[i].y++; // 적을 아래쪽으로 이동
@@ -284,41 +318,55 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					}
 					else if (enemy[i].y > y) {
 						enemy[i].y--;	//위
+						enemy[i].monsterDirection = 0;
+					}
+
+					if (enemy[i].x < x) { // 플레이어가 오른쪽에 있으면
+						enemy[i].x++; // 적을 오른쪽으로 이동
 						enemy[i].monsterDirection = 3;
 					}
+					else if (enemy[i].x > x) {
+						enemy[i].x--;
+						enemy[i].monsterDirection = 2;
+					}
 
-					if (enemy[i].x < 0) enemy[i].x = 0;
-					if (enemy[i].x > 1200) enemy[i].x = 1200;
-					if (enemy[i].y < 125) enemy[i].y = 125;
-					if (enemy[i].y > 800) enemy[i].y = 800;
-
-					if (enemy[i].type == 3) {
-						GetGyaradosImage(g_hInst, mDC, enemy[i].monsterDirection, animationNum, &hBitmapGyara);
-						DrawGyarados(mDC, enemy[i].x, enemy[i].y, hBitmapGyara, enemy[i].monsterDirection);
+					if (enemy[i].type == 0) {
+						GetGhostImage(g_hInst, mDC, enemy[i].monsterDirection, animationNum, &hBitmapMonster);
+						DrawGhost(mDC, enemy[i].x, enemy[i].y, hBitmapMonster, enemy[i].monsterDirection);
+					}
+					else if (enemy[i].type == 1) {
+						GetGhoustImage(g_hInst, mDC, enemy[i].monsterDirection, animationNum, &hBitmapMonster);
+						DrawGhoust(mDC, enemy[i].x, enemy[i].y, hBitmapMonster, enemy[i].monsterDirection);
 					}
 					else {
-						DrawBasicEnemy(g_hInst, mDC, BasicMonster, x, y);
+						GetPhantomImage(g_hInst, mDC, enemy[i].monsterDirection, animationNum, &hBitmapMonster);
+						DrawPhantom(mDC, enemy[i].x, enemy[i].y, hBitmapMonster, enemy[i].monsterDirection);
 					}
 				}
 			}
 
 			//증강
 			// 총알 그리기
-
 			DrawHpBox(mDC, x, y, MaxHp, currentHp);
-			DrawBullets(g_hInst, mDC, MAX_BULLETS, bullet, bulletLevel, hBitmapBullet);
+			DrawBullets(g_hInst, mDC, MAX_BULLETS, bullet, bulletLevel, &hBitmapBullet);
 
 			//멈춤pause
 			if (maptype == 4) {
-				DrawPauseMenu(mDC, g_hInst);
-				pauseMouseMove(mDC, g_hInst, pauseMouse);
+				//DrawPauseMenu(mDC, g_hInst);
+				//pauseMouseMove(mDC, g_hInst, pauseMouse);
 			}
+
+			//stage UI
+			DrawEXP_Bar(mDC, g_hInst, currentEXP, level);
+			TimeBar(mDC, Timer1Count, gamePlayminute);
+			//DrawPauseBar(mDC, hBitmapPause);
+			//DrawMiniMap(mDC, g_hInst, x, y);
 
 			BitBlt(hDC, 0, 0, rt.right, rt.bottom, mDC, 0, 0, SRCCOPY);
 
 			DeleteObject(hBitmap);
 			DeleteObject(hBitmapMap);
-			DeleteObject(hBitmapGyara);
+			DeleteObject(hBitmapMonster);
 			DeleteDC(mDC);
 			DeleteDC(mapDC);
 			DeleteDC(characterDC);
@@ -453,14 +501,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case 5:
 		case 6:
 		case 7:
-			UpdateCharacter(C_direction, &x, &y, &rect);
+			UpdateCharacter(C_direction, &x, &y, &rect, enemy, expnc);
+			ColpsWithEnemy();
 			break;
 		case 8:				//몬스터 생성 타이머 
 			for (int i = 0; i < MAX_ENEMIES; i++) {
 				if (!enemy[i].active) {
 					enemy[i].active = 1;
-					if (i % 6 == 0)enemy[i].type = 3;
-					CreateEnemy(hWnd, &(enemy[i].x), &(enemy[i].y));
+					CreateEnemy(hWnd, &(enemy[i].x), &(enemy[i].y), &(enemy[i].type), &(enemy[i].hp), evolution);
 					break;
 				}
 			}
@@ -473,6 +521,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		case 11: // 총알 타이머
 			UpdateBullets(MAX_BULLETS, bullet);
+			ColpsWithBullet();
 			break;
 		}
 		InvalidateRect(hWnd, NULL, false);
@@ -562,4 +611,142 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
+}
+
+void ColpsWithBullet() {
+	for (int i = 0; i <  MAX_BULLETS; i++) {
+		if (bullet[i].active) {
+			for (int j = 0; j < MAX_ENEMIES; j++) {
+				if (enemy[i].active) {
+					RECT rect, rect2;
+					if (bulletLevel == 3) {
+						switch (bullet[i].bulletDirection) { // rect 설정
+						case 1:
+							rect = { bullet[i].x, bullet[i].y,  bullet[i].x + 55,  bullet[i].x - 22 };
+							break;
+						case 2:
+							rect = { bullet[i].x, bullet[i].y,  bullet[i].x + 55,  bullet[i].x - 22 };
+							break;
+						case 3:
+							rect = { bullet[i].x, bullet[i].y,  bullet[i].x + 22,  bullet[i].x - 55 };
+							break;
+						case 4:
+							rect = { bullet[i].x, bullet[i].y,  bullet[i].x + 22,  bullet[i].x - 55 };
+							break;
+						}
+					}
+					else {
+						switch (bullet[i].bulletDirection) {
+						case 1:
+						case 2:
+						case 3:
+						case 4:
+							rect = { bullet[i].x - 5, bullet[i].y - 5, bullet[i].x + 5, bullet[i].y + 5 };
+							break;
+						}
+					}
+					switch (enemy[i].type) { // rect2 설정
+					case 0:
+						rect2 = { enemy[j].x - 25, enemy[j].y - 25, enemy[j].x + 25, enemy[j].y + 25 };
+						break;
+					case 1:
+						rect2 = { enemy[j].x - 35, enemy[j].y - 35, enemy[j].x + 35, enemy[j].y + 35 };
+						break;
+					case 2:
+						rect2 = { enemy[j].x - 45, enemy[j].y - 45, enemy[j].x + 45, enemy[j].y + 45 };
+						break;
+					}
+
+					if ((rect.right > rect2.right) && (rect.left < rect.right)
+						&& (rect.bottom > rect2.top) && (rect.top < rect2.bottom)) {
+						bullet[i].active = false;
+						enemy[j].hp -= damage;
+						if (enemy[j].hp <= 0) {
+							enemy[i].active = false;
+							DropExp(enemy[j].type, enemy[j].x, enemy[j].y);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void ColpsWithEnemy() {
+	for (int j = 0; j < MAX_ENEMIES; j++) {
+		if (enemy[j].active) {
+			RECT rect, rect2;
+			int damage1;
+			switch (evolution) { //rect 설정
+			case 1:
+				rect = { x, y, x + 50, y + 50 };
+				break;
+			case 2:
+				rect = { x, y, x + 70, y + 70 };
+				break;
+			case 3:
+				rect = { x, y, x + 90, y + 90 };
+				break;
+			}
+			switch (enemy[j].type) { // rect2 설정
+			case 0:
+				rect2 = { enemy[j].x - 25, enemy[j].y - 25, enemy[j].x + 25, enemy[j].y + 25 };
+				damage1 = 3;
+				break;
+			case 1:
+				rect2 = { enemy[j].x - 35, enemy[j].y - 35, enemy[j].x + 35, enemy[j].y + 35 };
+				damage1 = 5;
+				break;
+			case 2:
+				rect2 = { enemy[j].x - 45, enemy[j].y - 45, enemy[j].x + 45, enemy[j].y + 45 };
+				damage1 = 7;
+				break;
+			}
+			if ((rect.right > rect2.right) && (rect.left < rect.right)
+				&& (rect.bottom > rect2.top) && (rect.top < rect2.bottom)) {
+				if (currentHp > 0) {
+					currentHp -= 3;
+				}
+			}
+		}
+	}
+}
+
+void DropExp(int type, int x1, int y2) {
+	for (int i = 0; i < 100; i++) {
+		if (!expnc[i].active) {
+			expnc[i].active = true;
+			expnc[i].type = type;
+			expnc[i].x = x1;
+			expnc[i].y = y2;
+			break;
+		}
+	}
+}
+
+void GetExp() {
+	for (int i = 0; i < 100; i++) {
+		if (expnc[i].active) {
+			RECT rect, rect2;
+			int getExp = 0;
+
+			switch (expnc[i].type) {
+			case 0:
+			case 1:
+				rect = { expnc[i].x - 10, expnc[i].y - 10, expnc[i].x + 10, expnc[i].y + 10 };
+				getExp = 100;
+				break;
+			case 2:
+				rect = { expnc[i].x - 10, expnc[i].y - 10, expnc[i].x + 10, expnc[i].y + 10 };
+				getExp = 400;
+				break;
+			}
+			rect2 = { x, y, x + 50, y + 50 };
+			if ((rect.right > rect2.right) && (rect.left < rect.right)
+				&& (rect.bottom > rect2.top) && (rect.top < rect2.bottom)) {
+				expnc[i].active = false;
+				currentEXP += getExp;
+			}
+		}
+	}
 }
