@@ -125,7 +125,7 @@ void GetCharacterImage(int C_direction,int animationNum, HBITMAP* hBitmapCharact
 
 void DrawCharacter(HDC mDC, HDC characterDC, HBITMAP hBitmapCharacter, int x, int y) {
 	SelectObject(characterDC, hBitmapCharacter);;
-	TransparentBlt(mDC, x, y, 50, 50, characterDC, 0, 0, 20, 20, RGB(255, 255, 255));
+	TransparentBlt(mDC, x, y, 50, 50, characterDC, 0, 0, 20, 20, RGB(255, 255, 255)); 
 }
 
 void UpdateCharacter(int C_direction, int* x, int* y, RECT* rect) {
@@ -197,50 +197,3 @@ void UpdateCharacter(int C_direction, int* x, int* y, RECT* rect) {
 	}
 }
 
-void FireBullet(int x, int y, int dx, int dy, int MAX_BULLETS, Bullet * bullets) {
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		if (!bullets[i].active) {
-			bullets[i].x = x;
-			bullets[i].y = y;
-			bullets[i].dx = dx;
-			bullets[i].dy = dy;
-			bullets[i].active = true;
-			break;
-		}
-	}
-}
-
-void UpdateBullets(int MAX_BULLETS, Bullet* bullets) {
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		if (bullets[i].active) {
-			bullets[i].x += bullets[i].dx;
-			bullets[i].y += bullets[i].dy;
-
-		POINT point = { bullets[i].x, bullets[i].y };
-
-		// 총알이 화면 밖으로 나가면 비활성화
-		if (bullets[i].x < 0 || bullets[i].x > 1200 || bullets[i].y < 0 || bullets[i].y > 800) {
-			bullets[i].active = false;
-			}
-		}
-	}		
-}
-
-void DrawBullets(HDC hDC, int MAX_BULLETS, Bullet* bullets) {
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		if (bullets[i].active) {
-			if (bullets[i].dx == -10) { // 왼쪽
-				Ellipse(hDC, bullets[i].x - 5, bullets[i].y - 5, bullets[i].x + 5, bullets[i].y + 5);
-			}
-			else if (bullets[i].dx == 10) { // 오른쪽
-				Ellipse(hDC, bullets[i].x - 5, bullets[i].y - 5, bullets[i].x + 5, bullets[i].y + 5);
-			}
-			else if (bullets[i].dy == 10) { // 아래쪽
-				Ellipse(hDC, bullets[i].x - 5, bullets[i].y - 5, bullets[i].x + 5, bullets[i].y + 5);
-			}
-			else if (bullets[i].dy == -10) { // 위쪽
-				Ellipse(hDC, bullets[i].x - 5, bullets[i].y - 5, bullets[i].x + 5, bullets[i].y + 5);
-			}
-		}
-	}
-}

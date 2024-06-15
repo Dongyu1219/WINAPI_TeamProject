@@ -30,6 +30,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Map.h">
@@ -45,6 +48,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Monsters.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -373,6 +379,24 @@
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="map_bitmap\UI_background.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\m.Cascoon.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\water_attack1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\water_attack2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\water_attack3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\water_attack4.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\miniMap.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

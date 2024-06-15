@@ -4,20 +4,25 @@
 
 TCHAR gamePlayTime[20];
 
-static HBITMAP hBitmapPuaseMenu1, hBitmapPuaseMenu2, hBitmapPuaseMenu3, hBitmapPuaseMenu4, hBitmapPuaseMenu5, hBitmapPuaseMenu6;
+static HBITMAP hBitmapPuaseMenu1, hBitmapPuaseMenu2, hBitmapPuaseMenu3, hBitmapPuaseMenu4, hBitmapPuaseMenu5, hBitmapPuaseMenu6, hMiniMap;
 
-void DrawEXP_Bar(HDC mDC, HINSTANCE g_hInst) {
+void DrawEXP_Bar(HDC mDC, HINSTANCE g_hInst, int currentEXP) {
 	//HDC hDC = CreateCompatibleDC(mDC);
 	//HBITMAP hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP108));
 	//SelectObject(hDC, hBitmap);
 	//StretchBlt(mDC, 0, 0, 1200, 80, hDC, 0, 0, 206, 37, SRCCOPY);
 	HFONT hFont, oldfont;
 	RoundRect(mDC, 100, 0, 1100, 30, 20, 20);
+	HBRUSH hBrush = CreateSolidBrush(RGB(0, 200, 100));
+	HBRUSH oldBrush = (HBRUSH)SelectObject(mDC, hBrush);
+	RoundRect(mDC, 100, 0, currentEXP, 30, 20, 20);
 	hFont = CreateFont(15, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, _T("±Ã¼­"));
 	oldfont = (HFONT)SelectObject(mDC, hFont);
 	//wsprintf(gamePlayTime, TEXT("%d : %d"), gamePlayminute, Timer1Count);
 	SetBkMode(mDC, TRANSPARENT);
 	TextOut(mDC, 1000, 10, _T("Level:0"), 10);
+	SelectObject(mDC, oldBrush);
+	DeleteObject(hBrush);
 	SelectObject(mDC, oldfont);
 	DeleteObject(hFont);
 	//DeleteDC(hDC);
@@ -101,6 +106,16 @@ void pauseMouseMove(HDC mDC, HINSTANCE g_hInst, int pauseMouse) {
 	DeleteDC(hmemDC);
 }
 
-//void DrawMiniMap(HDC mDC) {
-//	
-//}
+void DrawMiniMap(HDC mDC, HINSTANCE g_hInst, int x, int y) {
+	HDC hmemDC = CreateCompatibleDC(mDC);
+	SelectObject(hmemDC, hMiniMap);
+
+	hMiniMap = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP114));
+	TransparentBlt(mDC, 20, 600, 210, 140, hmemDC, 0, 0, 240, 160, RGB(255, 255, 255));
+
+	//Ellipse(mDC, x-50, y-35, x + 50, y + 35);
+
+	DeleteDC(hmemDC);
+}
+
+//114

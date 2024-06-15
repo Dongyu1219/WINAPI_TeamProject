@@ -3,6 +3,7 @@
 #include <time.h>
 #include <random>
 #include "Map.h"
+#include "Skill.h"
 #include "Monsters.h"
 #include "StageUI.h"
 #include "Player.h"
@@ -10,7 +11,7 @@
 
 //WIDTH  200
 //HEIGHT 100
-#define MAX_BULLETS 100 // 총알 개수
+#define MAX_BULLETS 200 // 총알 개수
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class Name";
@@ -75,7 +76,7 @@ int characterNum = 0;
 int characterHalfWidth = 25;
 
 int enemySpawnTime = 6000;
-
+int monsterDirection = 3; 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	srand((unsigned)time(NULL));
@@ -86,7 +87,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	static HBITMAP hbitmapMap0, hbitmapWall0, hbitmapWall1, hbitmapWall2;
 	static HBITMAP  hBitmapCharacter, hBitmapPause, hBitmapMap;
 	static HBITMAP hBitmapSavedMap = NULL;
-	static HBITMAP hBitmapGyara;
+	static HBITMAP BasicMonster, hBitmapGyara;
+	static HBITMAP hBitmapBullet;
 	RECT rt;
 	static int Timer1Count, gamePlayminute = 0;		//게임 플레이 타이머
 	static int pauseCount = 0;
@@ -101,6 +103,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	static int mainx = 575;				//캐릭터 초기위치
 	static int mainy = 320;
 	static int begin = 0;
+
+	//===============증강===============
+	static int currentEXP = 900;		//경험치
+	static int MaxHp = 22;				//체력 
+	static int currentHp = MaxHp;		
+	static int bulletLevel = 3;			//공격
 
 	switch (uMsg) {
 	case WM_CREATE: {
@@ -117,6 +125,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 	}
 		break;
+
 	case WM_PAINT: {
 		GetClientRect(hWnd, &rt);
 		hDC = BeginPaint(hWnd, &ps);
@@ -247,9 +256,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			StretchBlt(mDC, 0, 0, rt.right, rt.bottom, mapDC, rect.left, rect.top, 1200, 800, SRCCOPY);
 
 			//stage UI
-			DrawEXP_Bar(mDC, g_hInst);
+			DrawEXP_Bar(mDC, g_hInst, currentEXP);
 			TimeBar(mDC, Timer1Count, gamePlayminute);
 			DrawPauseBar(mDC, hBitmapPause);
+			//DrawMiniMap(mDC, g_hInst, x, y);
 
 			//캐릭터
 			GetCharacterImage(C_direction, animationNum, &hBitmapCharacter, g_hInst, characterNum);
@@ -258,15 +268,45 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			//몬스터
 			for (int i = 0; i < MAX_ENEMIES; i++) {
 				if (enemy[i].active) {
-					GetGyaradosImage(g_hInst, mDC, enemy[i].monsterDirection, animationNum, &hBitmapGyara);
-					DrawGyarados(mDC, enemy[i].x, enemy[i].y, hBitmapGyara);
+					// 플레이어의 위치와 적의 위치를 비교
+					if (enemy[i].x < x) { // 플레이어가 오른쪽에 있으면
+						enemy[i].x++; // 적을 오른쪽으로 이동
+						enemy[i].monsterDirection = 0;
+					}
+					else if (enemy[i].x > x) {
+						enemy[i].x--;
+						enemy[i].monsterDirection = 2;
+					}
+
+					if (enemy[i].y < y) { // 플레이어가 아래쪽에 있으면
+						enemy[i].y++; // 적을 아래쪽으로 이동
+						enemy[i].monsterDirection = 1;
+					}
+					else if (enemy[i].y > y) {
+						enemy[i].y--;	//위
+						enemy[i].monsterDirection = 3;
+					}
+
+					if (enemy[i].x < 0) enemy[i].x = 0;
+					if (enemy[i].x > 1200) enemy[i].x = 1200;
+					if (enemy[i].y < 125) enemy[i].y = 125;
+					if (enemy[i].y > 800) enemy[i].y = 800;
+
+					if (enemy[i].type == 3) {
+						GetGyaradosImage(g_hInst, mDC, enemy[i].monsterDirection, animationNum, &hBitmapGyara);
+						DrawGyarados(mDC, enemy[i].x, enemy[i].y, hBitmapGyara, enemy[i].monsterDirection);
+					}
+					else {
+						DrawBasicEnemy(g_hInst, mDC, BasicMonster, x, y);
+					}
 				}
 			}
-			//MoveEnemies(x, y, monsterDirection);
-			//DrawEpicMonster(mDC, characterDC, hBitmapGyara, x, y);
 
+			//증강
 			// 총알 그리기
-			DrawBullets(mDC, MAX_BULLETS, bullet);
+
+			DrawHpBox(mDC, x, y, MaxHp, currentHp);
+			DrawBullets(g_hInst, mDC, MAX_BULLETS, bullet, bulletLevel, hBitmapBullet);
 
 			//멈춤pause
 			if (maptype == 4) {
@@ -321,16 +361,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 		case VK_UP: // 총알 발사
-			FireBullet(x + characterHalfWidth, y, 0, -10, MAX_BULLETS, bullet);
+			FireBullet(x + characterHalfWidth, y, 0, -10, MAX_BULLETS, bullet, 3);
 			break;
 		case VK_DOWN:
-			FireBullet(x + characterHalfWidth, y + characterHalfWidth, 0, +10, MAX_BULLETS, bullet);
+			FireBullet(x + characterHalfWidth, y + characterHalfWidth, 0, +10, MAX_BULLETS, bullet, 4);
 			break;
 		case VK_LEFT:
-			FireBullet(x, y + characterHalfWidth, -10, 0, MAX_BULLETS, bullet);
+			FireBullet(x, y + characterHalfWidth, -10, 0, MAX_BULLETS, bullet, 2);
 			break;
 		case VK_RIGHT:
-			FireBullet(x + characterHalfWidth*2, y + characterHalfWidth, 10, 0, MAX_BULLETS, bullet);
+			FireBullet(x + characterHalfWidth*2, y + characterHalfWidth, 10, 0, MAX_BULLETS, bullet, 1);
 			break;
 		case 'P': 
 		case 'p':
@@ -402,6 +442,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				animationNum = 0;
 			}
 			break;
+
 		case 3: // Press 'p' to Start 타이머
 			if (TextCount == 0) {
 				TextCount = 1;
@@ -418,13 +459,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			for (int i = 0; i < MAX_ENEMIES; i++) {
 				if (!enemy[i].active) {
 					enemy[i].active = 1;
+					if (i % 6 == 0)enemy[i].type = 3;
 					CreateEnemy(hWnd, &(enemy[i].x), &(enemy[i].y));
 					break;
 				}
 			}
 			enemySpawnTime = max(1000, enemySpawnTime - 100); // 점점 생성 시간 짧아짐, 최소 1초
 			break;
+
 		case 10:		//중형 몬스터 움직임
+
+
 			break;
 		case 11: // 총알 타이머
 			UpdateBullets(MAX_BULLETS, bullet);

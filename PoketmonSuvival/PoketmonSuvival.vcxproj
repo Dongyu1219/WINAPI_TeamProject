@@ -131,6 +131,7 @@
     <ClCompile Include="Monsters.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="1. PoketmonSurvival.cpp" />
+    <ClCompile Include="Skill.cpp" />
     <ClCompile Include="StageUI.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +139,7 @@
     <ClInclude Include="Monsters.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource1.h" />
+    <ClInclude Include="Skill.h" />
     <ClInclude Include="StageUI.h" />
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +172,7 @@
     <Image Include="Intro_Bitmap\squirtle.profile2.bmp" />
     <Image Include="Intro_Bitmap\startImage.bmp" />
     <Image Include="Intro_Bitmap\starting_select.bmp" />
+    <Image Include="map_bitmap\miniMap.bmp" />
     <Image Include="map_bitmap\PauseBitmap.bmp" />
     <Image Include="map_bitmap\play-button-select.bmp" />
     <Image Include="map_bitmap\play-button-select2.bmp" />
@@ -215,6 +218,7 @@
     <Image Include="monsters_bitmap\Longstone_right1.bmp" />
     <Image Include="monsters_bitmap\Longstone_right2.bmp" />
     <Image Include="monsters_bitmap\Longstone_right3.bmp" />
+    <Image Include="monsters_bitmap\m.Cascoon.bmp" />
     <Image Include="monsters_bitmap\Steelstone_back1.bmp" />
     <Image Include="monsters_bitmap\Steelstone_back2.bmp" />
     <Image Include="monsters_bitmap\Steelstone_back3.bmp" />
@@ -251,6 +255,10 @@
     <Image Include="Player_Bitmap\squirtle.left2.bmp" />
     <Image Include="Player_Bitmap\squirtle.right1.bmp" />
     <Image Include="Player_Bitmap\squirtle.right2.bmp" />
+    <Image Include="skill_bitmap\water_attack1.bmp" />
+    <Image Include="skill_bitmap\water_attack2.bmp" />
+    <Image Include="skill_bitmap\water_attack3.bmp" />
+    <Image Include="skill_bitmap\water_attack4.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
