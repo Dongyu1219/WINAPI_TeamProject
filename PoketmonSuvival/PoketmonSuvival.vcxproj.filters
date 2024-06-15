@@ -477,5 +477,149 @@
     <Image Include="Player_Bitmap\Exp2.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="Player_Bitmap\blastoise_back1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\blastoise_back2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\blastoise_front1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\blastoise_front2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\blastoise_left1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\blastoise_left2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\blastoise_right1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\blastoise_right2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charizard_back1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charizard_back2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charizard_front1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charizard_front2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charizard_left1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charizard_left2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charizard_right1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charizard_right2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmeleon_back1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmeleon_back2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmeleon_front1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmeleon_front2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmeleon_left1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmeleon_left2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmeleon_right1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\charmeleon_right2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\ivysaur_back1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\ivysaur_back2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\ivysaur_front1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\ivysaur_front2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\ivysaur_left1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\ivysaur_left2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\ivysaur_right1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\ivysaur_right2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\venusaur_back1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\venusaur_back2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\venusaur_front1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\venusaur_front2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\venusaur_left1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\venusaur_left2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\venusaur_right1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\venusaur_right2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\wartortle_back1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\wartortle_back2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\wartortle_front1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\wartortle_front2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\wartortle_left1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\wartortle_left2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\wartortle_right1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Player_Bitmap\wartortle_right2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

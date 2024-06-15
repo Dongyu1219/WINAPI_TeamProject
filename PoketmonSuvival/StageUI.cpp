@@ -16,7 +16,7 @@ void DrawEXP_Bar(HDC mDC, HINSTANCE g_hInst, int currentEXP, int level) {
 	HBRUSH hBrush = CreateSolidBrush(RGB(0, 200, 100));
 	HBRUSH oldBrush = (HBRUSH)SelectObject(mDC, hBrush);
 	RoundRect(mDC, 100, 0, currentEXP, 30, 20, 20);
-	hFont = CreateFont(15, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, _T("±Ã¼­"));
+	hFont = CreateFont(15, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, _T("Airal"));
 	oldfont = (HFONT)SelectObject(mDC, hFont);
 	wsprintf(gamePlayTime, TEXT("Level : %d"),level);
 	SetBkMode(mDC, TRANSPARENT);
@@ -31,7 +31,7 @@ void DrawEXP_Bar(HDC mDC, HINSTANCE g_hInst, int currentEXP, int level) {
 void TimeBar(HDC mDC, int Timer1Count, int gamePlayminute) {
 
 	HFONT hFont, oldfont;
-	hFont = CreateFont(30, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, _T("±Ã¼­"));
+	hFont = CreateFont(30, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, _T("Arial"));
 	oldfont = (HFONT)SelectObject(mDC, hFont);
 	wsprintf(gamePlayTime, TEXT("%d : %d"), gamePlayminute, Timer1Count);
 	TextOut(mDC, 550, 32, gamePlayTime, _tcslen(gamePlayTime));

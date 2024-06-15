@@ -84,7 +84,7 @@ int x = 575;				//캐릭터 위치
 int y = 320;
 
 // 진화
-int evolution = 1;
+int evolution = 2;
 int level = 1;
 
 //총알 데미지
@@ -270,28 +270,27 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			else if (currentEXP >= 1000) {
 				level = 9;
-				evolution = 3;
-				bulletLevel = 3;
 			}
 			else if (currentEXP >= 900) {
 				level = 8;
 			}
 			else if (currentEXP >= 800) {
 				level = 7;
+				evolution = 3;
+				bulletLevel = 3;
 			}
 			else if (currentEXP >= 700) {
 				level = 6;
-				evolution = 3;
 			}
 			else if (currentEXP >= 600) {
 				level = 5;
 			}
 			else if (currentEXP >= 500) {
 				level = 4;
+				evolution = 2;
 			}
 			else if (currentEXP >= 400) {
 				level = 3;
-				evolution = 2;
 			}
 			else if (currentEXP >= 300) {
 				level = 2;
@@ -304,8 +303,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			DrawExp(expnc, mDC, g_hInst);
 
 			//캐릭터
-			GetCharacterImage(C_direction, animationNum, &hBitmapCharacter, g_hInst, characterNum);
-			DrawCharacter(mDC, characterDC, hBitmapCharacter, x, y);
+			GetCharacterImage(C_direction, animationNum, &hBitmapCharacter, g_hInst, characterNum, evolution);
+			DrawCharacter(mDC, characterDC, hBitmapCharacter, x, y, evolution);
 
 			//몬스터
 			for (int i = 0; i < MAX_ENEMIES; i++) {

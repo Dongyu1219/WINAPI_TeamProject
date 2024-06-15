@@ -1,4 +1,1 @@
-﻿  1. PoketmonSurvival.cpp
-C:\GitHub\WINAPI_TeamProject\PoketmonSuvival\1. PoketmonSurvival.cpp(58,16): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\GitHub\WINAPI_TeamProject\PoketmonSuvival\1. PoketmonSurvival.cpp(172,35): warning C4312: '형식 캐스트': 'int'에서 더 큰 'LPCWSTR'(으)로의 변환입니다.
-  PoketmonSuvival.vcxproj -> C:\GitHub\WINAPI_TeamProject\PoketmonSuvival\x64\Debug\PoketmonSuvival.exe
+﻿  PoketmonSuvival.vcxproj -> C:\GitHub\WINAPI_TeamProject\PoketmonSuvival\x64\Debug\PoketmonSuvival.exe
