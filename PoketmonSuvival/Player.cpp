@@ -498,6 +498,11 @@ void DrawExp(Exp* expnc, HDC mDC, HINSTANCE g_hInst) {
 				SelectObject(hDC, hBitmapExp);
 				TransparentBlt(mDC, expnc[i].x - 10, expnc[i].y - 10, 20, 20, hDC, 0, 0, 20, 22, RGB(255, 255, 255));
 				break;
+			case 3:
+				hBitmapExp = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP213));
+				SelectObject(hDC, hBitmapExp);
+				TransparentBlt(mDC, expnc[i].x - 15, expnc[i].y - 15, 30, 30, hDC, 0, 0, 25, 25, RGB(255, 255, 255));
+				break;
 			}
 		}
 	}

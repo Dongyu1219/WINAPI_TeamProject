@@ -100,7 +100,7 @@ int level = 1;
 int damage = 50;
 
 //===============증강===============
-int currentEXP = 0;		//경험치
+int currentEXP = 100;		//경험치
 int MaxHp = 20;				//체력 
 int currentHp = MaxHp;
 int bulletLevel = 1;			//공격
@@ -306,34 +306,36 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			GetExp();
 			
-			if (currentEXP >= 1100) {
+			if (currentEXP >= 1000) {
 				level = 10;
 			}
-			else if (currentEXP >= 1000) {
+			else if (currentEXP >= 900) {
 				level = 9;
 			}
-			else if (currentEXP >= 900) {
+			else if (currentEXP >= 800) {
 				level = 8;
 			}
-			else if (currentEXP >= 800) {
+			else if (currentEXP >= 700) {
 				level = 7;
 				evolution = 3;
 				bulletLevel = 3;
-			}
-			else if (currentEXP >= 700) {
-				level = 6;
+				damage = 70;
 			}
 			else if (currentEXP >= 600) {
-				level = 5;
+				level = 6;
 			}
 			else if (currentEXP >= 500) {
-				level = 4;
-				evolution = 2;
+				level = 5;
 			}
 			else if (currentEXP >= 400) {
-				level = 3;
+				level = 4;
+				evolution = 2;
+				damage = 60;
 			}
 			else if (currentEXP >= 300) {
+				level = 3;
+			}
+			else if (currentEXP >= 200) {
 				level = 2;
 			}
 
@@ -553,16 +555,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case VK_UP: // 총알 발사
-			FireBullet(x + characterHalfWidth, y, 0, -10, MAX_BULLETS, bullet, 3);
+			FireBullet(x + 20, y + 20, 0, -10, MAX_BULLETS, bullet, 3);
 			break;
 		case VK_DOWN:
-			FireBullet(x + characterHalfWidth, y + characterHalfWidth, 0, +10, MAX_BULLETS, bullet, 4);
+			FireBullet(x + 20, y + 20, 0, +10, MAX_BULLETS, bullet, 4);
 			break;
 		case VK_LEFT:
-			FireBullet(x, y + characterHalfWidth, -10, 0, MAX_BULLETS, bullet, 2);
+			FireBullet(x+20, y + 20, -10, 0, MAX_BULLETS, bullet, 2);
 			break;
 		case VK_RIGHT:
-			FireBullet(x + characterHalfWidth*2, y + characterHalfWidth, 10, 0, MAX_BULLETS, bullet, 1);
+			FireBullet(x + 20, y + 20, 10, 0, MAX_BULLETS, bullet, 1);
 			break;
 		case VK_RETURN: 
 			if (pDown == 0) {
@@ -798,7 +800,7 @@ void ColpsWithBullet() {
 						break;
 					}
 
-					if ((rect.right > rect2.right) && (rect.left < rect.right)
+					if ((rect.right > rect2.left) && (rect.left < rect.right)
 						&& (rect.bottom > rect2.top) && (rect.top < rect2.bottom)) {
 						bullet[i].active = false;
 						enemy[j].hp -= damage;
@@ -843,7 +845,7 @@ void ColpsWithEnemy() {
 				damage1 = 7;
 				break;
 			}
-			if ((rect.right > rect2.right) && (rect.left < rect.right)
+			if ((rect.right > rect2.left) && (rect.left < rect.right)
 				&& (rect.bottom > rect2.top) && (rect.top < rect2.bottom)) {
 				if (currentHp > 0) {
 					currentHp -= 3;
@@ -854,10 +856,16 @@ void ColpsWithEnemy() {
 }
 
 void DropExp(int type, int x1, int y2) {
+	int num;
+	num = rand() % 4;
+
 	for (int i = 0; i < 100; i++) {
 		if (!expnc[i].active) {
 			expnc[i].active = true;
-			expnc[i].type = type;
+			if (num != 3) {
+				expnc[i].type = type;
+			}
+			else expnc[i].type = 3;
 			expnc[i].x = x1;
 			expnc[i].y = y2;
 			break;
@@ -875,18 +883,24 @@ void GetExp() {
 			case 0:
 			case 1:
 				rect = { expnc[i].x - 10, expnc[i].y - 10, expnc[i].x + 10, expnc[i].y + 10 };
-				getExp = 100;
+				getExp = 20;
 				break;
 			case 2:
 				rect = { expnc[i].x - 10, expnc[i].y - 10, expnc[i].x + 10, expnc[i].y + 10 };
-				getExp = 400;
+				getExp = 60;
+				break;
+			case 3:
+				rect = { expnc[i].x - 10, expnc[i].y - 10, expnc[i].x + 10, expnc[i].y + 10 };
 				break;
 			}
 			rect2 = { x, y, x + 50, y + 50 };
-			if ((rect.right > rect2.right) && (rect.left < rect.right)
+			if ((rect.right > rect2.left) && (rect.left < rect.right)
 				&& (rect.bottom > rect2.top) && (rect.top < rect2.bottom)) {
 				expnc[i].active = false;
-				currentEXP += getExp;
+				if (expnc[i].type == 3) {
+					currentHp += 10;
+				}
+				else currentEXP += getExp;
 			}
 		}
 	}

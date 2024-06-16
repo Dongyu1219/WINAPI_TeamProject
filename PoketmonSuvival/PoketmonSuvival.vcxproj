@@ -271,6 +271,8 @@
     <Image Include="Player_Bitmap\1_left2.bmp" />
     <Image Include="Player_Bitmap\1_right1.bmp" />
     <Image Include="Player_Bitmap\1_right2.bmp" />
+    <Image Include="Player_Bitmap\berry.bmp" />
+    <Image Include="player_bitmap\bitmap21.bmp" />
     <Image Include="Player_Bitmap\blastoise_back1.bmp" />
     <Image Include="Player_Bitmap\blastoise_back2.bmp" />
     <Image Include="Player_Bitmap\blastoise_front1.bmp" />

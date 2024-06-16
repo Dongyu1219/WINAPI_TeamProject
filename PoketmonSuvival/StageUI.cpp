@@ -15,7 +15,13 @@ void DrawEXP_Bar(HDC mDC, HINSTANCE g_hInst, int currentEXP, int level) {
 	RoundRect(mDC, 100, 0, 1100, 30, 20, 20);
 	HBRUSH hBrush = CreateSolidBrush(RGB(0, 200, 100));
 	HBRUSH oldBrush = (HBRUSH)SelectObject(mDC, hBrush);
-	RoundRect(mDC, 100, 0, currentEXP, 30, 20, 20);
+	if (level != 10) {
+		RoundRect(mDC, 100, 0, 100 + (currentEXP - (level * 100)) * 10, 30, 20, 20);
+	}
+	else if (level == 10) {
+		RoundRect(mDC, 100, 0, 1100, 30, 20, 20);
+	}
+
 	hFont = CreateFont(15, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, _T("Airal"));
 	oldfont = (HFONT)SelectObject(mDC, hFont);
 	wsprintf(gamePlayTime, TEXT("Level : %d"),level);
