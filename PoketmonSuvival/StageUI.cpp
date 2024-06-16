@@ -29,7 +29,6 @@ void DrawEXP_Bar(HDC mDC, HINSTANCE g_hInst, int currentEXP, int level) {
 }
 
 void TimeBar(HDC mDC, int Timer1Count, int gamePlayminute) {
-
 	HFONT hFont, oldfont;
 	hFont = CreateFont(30, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, _T("Arial"));
 	oldfont = (HFONT)SelectObject(mDC, hFont);
@@ -46,7 +45,6 @@ void DrawPauseBar(HDC mDC, HBITMAP hBitmapPause) {
 	TransparentBlt(mDC, 1120, 5, 50, 50, hmemDC, 0, 0, 512, 512, RGB(255, 255, 255));
 	DeleteDC(hmemDC);
 }
-
 void DrawPauseMenu(HDC mDC, HINSTANCE g_hInst) {
 	HDC hmemDC = CreateCompatibleDC(mDC);
 
@@ -76,7 +74,6 @@ void DrawPauseMenu(HDC mDC, HINSTANCE g_hInst) {
 
 	DeleteDC(hmemDC);
 }
-
 void pauseMouseMove(HDC mDC, HINSTANCE g_hInst, int pauseMouse) {
 	HDC hmemDC = CreateCompatibleDC(mDC);
 
@@ -105,7 +102,6 @@ void pauseMouseMove(HDC mDC, HINSTANCE g_hInst, int pauseMouse) {
 	}
 	DeleteDC(hmemDC);
 }
-
 void DrawMiniMap(HDC mDC, HINSTANCE g_hInst, int x, int y) {
 	HDC hmemDC = CreateCompatibleDC(mDC);
 	SelectObject(hmemDC, hMiniMap);
@@ -117,3 +113,4 @@ void DrawMiniMap(HDC mDC, HINSTANCE g_hInst, int x, int y) {
 
 	DeleteDC(hmemDC);
 }
+

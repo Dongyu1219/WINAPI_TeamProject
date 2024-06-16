@@ -5,6 +5,7 @@
 #define HEIGHT 67		//1608
 
 static HBITMAP hbitmapMap1, hbitmapMap2, hbitmapWaterWall0, hbitmapWaterWall1, hbitmapWaterWall2, hbitmapWaterWall3, hbitmapWaterWall4;
+static HBITMAP hUpgradeMenu;
 
 void DrawGrassMap(HDC mDC, HBITMAP hbitmapMap0, HBITMAP  hbitmapWall0, HBITMAP hbitmapWall1, HBITMAP hbitmapWall2) {
 	HDC hmemDC = CreateCompatibleDC(mDC);
@@ -35,7 +36,6 @@ void DrawGrassMap(HDC mDC, HBITMAP hbitmapMap0, HBITMAP  hbitmapWall0, HBITMAP h
 
 	DeleteDC(hmemDC);
 }
-
 void DrawWaterMap(HDC mDC, HINSTANCE g_hInst) {
 
 	hbitmapMap1 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP51));
@@ -82,7 +82,6 @@ void DrawWaterMap(HDC mDC, HINSTANCE g_hInst) {
 	DeleteDC(hmemDC);
 
 }
-
 void DrawFireMap(HDC mDC, HINSTANCE g_hInst) {
 	hbitmapMap2 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP50));
 	HDC hmemDC = CreateCompatibleDC(mDC);
@@ -95,5 +94,13 @@ void DrawFireMap(HDC mDC, HINSTANCE g_hInst) {
 		}
 	}
 
+	DeleteDC(hmemDC);
+}
+//189
+void DrawUpgradeMenu(HDC mDC, HINSTANCE g_hInst){
+	HDC hmemDC = CreateCompatibleDC(mDC);
+	hUpgradeMenu = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP189));
+	SelectObject(hmemDC, hUpgradeMenu);
+	StretchBlt(mDC, 10, 25, 1160, 740, hmemDC, 0, 0, 255, 182, SRCCOPY);
 	DeleteDC(hmemDC);
 }

@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Monsters.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -135,6 +136,7 @@
     <ClCompile Include="StageUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Monsters.h" />
     <ClInclude Include="Player.h" />
@@ -194,6 +196,8 @@
     <Image Include="map_bitmap\restart-button-selected.bmp" />
     <Image Include="map_bitmap\restart-button.bmp" />
     <Image Include="map_bitmap\UI_background.bmp" />
+    <Image Include="monsters_bitmap\boss1.bmp" />
+    <Image Include="monsters_bitmap\boss2.bmp" />
     <Image Include="monsters_bitmap\ghost_back1.bmp" />
     <Image Include="monsters_bitmap\ghost_back2.bmp" />
     <Image Include="monsters_bitmap\ghost_front1.bmp" />
@@ -329,10 +333,23 @@
     <Image Include="Player_Bitmap\wartortle_left2.bmp" />
     <Image Include="Player_Bitmap\wartortle_right1.bmp" />
     <Image Include="Player_Bitmap\wartortle_right2.bmp" />
+    <Image Include="skill_bitmap\aura1.bmp" />
+    <Image Include="skill_bitmap\aura2.bmp" />
+    <Image Include="skill_bitmap\aura3.bmp" />
+    <Image Include="skill_bitmap\aura4.bmp" />
     <Image Include="skill_bitmap\water_attack1.bmp" />
     <Image Include="skill_bitmap\water_attack2.bmp" />
     <Image Include="skill_bitmap\water_attack3.bmp" />
     <Image Include="skill_bitmap\water_attack4.bmp" />
+    <Image Include="upgrade_bitmap\bomb.bmp" />
+    <Image Include="upgrade_bitmap\expBoost.bmp" />
+    <Image Include="upgrade_bitmap\plusPower.bmp" />
+    <Image Include="upgrade_bitmap\tonadoK.bmp" />
+    <Image Include="upgrade_bitmap\상처약1.bmp" />
+    <Image Include="upgrade_bitmap\상처약2.bmp" />
+    <Image Include="upgrade_bitmap\상처약3.bmp" />
+    <Image Include="upgrade_bitmap\증강화면.bmp" />
+    <Image Include="upgrade_bitmap\진화의 돌.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

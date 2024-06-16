@@ -33,6 +33,9 @@
     <ClCompile Include="Skill.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Map.h">
@@ -51,6 +54,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Skill.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -619,6 +625,51 @@
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="Player_Bitmap\wartortle_right2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="upgrade_bitmap\증강화면.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="upgrade_bitmap\상처약1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="upgrade_bitmap\상처약2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="upgrade_bitmap\상처약3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="upgrade_bitmap\bomb.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="upgrade_bitmap\expBoost.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="upgrade_bitmap\plusPower.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="upgrade_bitmap\진화의 돌.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="upgrade_bitmap\tonadoK.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\boss1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="monsters_bitmap\boss2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\aura1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\aura2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\aura3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\aura4.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

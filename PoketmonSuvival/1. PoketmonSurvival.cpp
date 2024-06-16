@@ -7,11 +7,14 @@
 #include "Monsters.h"
 #include "StageUI.h"
 #include "Player.h"
+#include "Boss.h"
 #include "resource1.h"
 
 //WIDTH  200
 //HEIGHT 100
 #define MAX_BULLETS 200 // 총알 개수
+#define MAX_SKILLS 10 
+
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class Name";
@@ -23,6 +26,8 @@ void ColpsWithEnemy();
 void ColpsWithBullet();
 void DropExp(int type, int x, int y);
 void GetExp();
+
+//void skillChoices(int* skillChoice);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 
@@ -61,6 +66,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 // 총알
 Bullet bullet[MAX_BULLETS];
 Enemy enemy[MAX_ENEMIES];
+Skills skills[MAX_SKILLS];
+
 Exp expnc[100];
 
 // 시작 인트로
@@ -92,7 +99,7 @@ int damage = 50;
 
 //===============증강===============
 int currentEXP = 0;		//경험치
-int MaxHp = 22;				//체력 
+int MaxHp = 20;				//체력 
 int currentHp = MaxHp;
 int bulletLevel = 1;			//공격
 
@@ -122,6 +129,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	static int mainx = 575;				//캐릭터 초기위치
 	static int mainy = 320;
 	static int begin = 0;
+	static int bomb = 0;
+
+	static bool choose = false;
+	static int chooseNum = 0;
+	static bool bosMode = false;
 
 	switch (uMsg) {
 	case WM_CREATE: {
@@ -190,11 +202,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			hFont = CreateFont(100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Courier New");
 			oldFont = (HFONT)SelectObject(hDC, hFont);
 			if (TextCount == 0) {
-				TextOut(hDC, 55, 605, L"Press 'P' to Start", lstrlen(L"Press 'P' To Start"));
+				TextOut(hDC, 55, 605, L"Press Enter to Start", lstrlen(L"Press Enter To Start"));
 				SetTextColor(hDC, RGB(255, 255, 255));
 				hFont = CreateFont(100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Courier New");
 				oldFont = (HFONT)SelectObject(hDC, hFont);
-				TextOut(hDC, 50, 600, L"Press 'P' to Start", lstrlen(L"Press 'P' To Start"));
+				TextOut(hDC, 50, 600, L"Press Enter to Start", lstrlen(L"Press Enter To Start"));
 			}
 
 			DeleteDC(IntroDC);
@@ -238,7 +250,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SetTextColor(hDC, RGB(255, 255, 255));
 			hFont = CreateFont(50, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Arial");
 			oldFont = (HFONT)SelectObject(hDC, hFont);
-			TextOut(hDC, 800, 600, L"Press 'P' To Start", lstrlen(L"Press 'P' To Start"));
+			TextOut(hDC, 750, 600, L"Press Enter To Start", lstrlen(L"Press Enter To Start"));
 			DeleteDC(IntroDC);
 			SelectObject(hDC, oldBrush);
 			DeleteObject(hBrush);
@@ -344,10 +356,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 			}
 
-			//증강
+
 			// 총알 그리기
 			DrawHpBox(mDC, x, y, MaxHp, currentHp);
 			DrawBullets(g_hInst, mDC, MAX_BULLETS, bullet, bulletLevel, &hBitmapBullet);
+
+			//증강
+			if ((level % 3) == 0) {
+				choose = true;
+			}
+			if (choose) {
+				//KillTimer(hWnd, 6);
+				DrawUpgradeMenu(mDC, g_hInst);
+				if(chooseNum == 0)skillChoices0(mDC, MAX_SKILLS, g_hInst);
+				else if (chooseNum == 1)skillChoices1(mDC, MAX_SKILLS, g_hInst);
+				else if (chooseNum == 2)skillChoices2(mDC, MAX_SKILLS, g_hInst);
+			}
+
+		//	보스 맵
+			//if (level == 10) {
+			//	bosMode = true;
+			//}
+			//if (bosMode) {
+			//	//SetTimer(hWnd, 10, 500, NULL);
+			//	DrawBoss(mDC, g_hInst, animationNum);
+			//}
+
 
 			//멈춤pause
 			if (maptype == 4) {
@@ -407,6 +441,71 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				left = 1;
 			}
 			break;
+		case 'y':
+		case 'Y':
+			if (chooseNum == 0) {
+				chooseNum++;
+				level++;
+				MaxHp = MaxHp + 5;
+				choose = false;
+			}
+			else if (chooseNum == 1) {
+				chooseNum++;
+				level++;
+				//운석
+				choose = false;
+			}
+			else if (chooseNum == 2) {
+				chooseNum++;
+				level++;
+				MaxHp = MaxHp + 10;
+				choose = false;
+			}
+			break;
+		case 'b':
+		case 'B':
+			if (chooseNum == 0) {
+				chooseNum++;
+				level++;
+				//토네이도
+				choose = false;
+			}
+			else if (chooseNum == 1) {
+				chooseNum++;
+				level++;
+				MaxHp = MaxHp + 10;
+				choose = false;
+			}
+			else if (chooseNum == 2) {
+				chooseNum++;
+				level++;
+				damage = damage + 20;
+				choose = false;
+			}
+			
+			break;
+		case 'p':
+		case 'P':
+			if (chooseNum == 0) {
+				chooseNum++;
+				level++;
+				//운석
+				choose = false;
+			}
+			else if (chooseNum == 1) {
+				chooseNum++;
+				level++;
+				damage = damage + 20;
+				choose = false;
+			}
+			else if (chooseNum == 2) {
+				chooseNum++;
+				level++;
+				//운석
+				choose = false;
+			}
+			break;
+
 		case VK_UP: // 총알 발사
 			FireBullet(x + characterHalfWidth, y, 0, -10, MAX_BULLETS, bullet, 3);
 			break;
@@ -419,8 +518,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case VK_RIGHT:
 			FireBullet(x + characterHalfWidth*2, y + characterHalfWidth, 10, 0, MAX_BULLETS, bullet, 1);
 			break;
-		case 'P': 
-		case 'p':
+		case VK_RETURN: 
 			if (pDown == 0) {
 				pDown = 1;
 				KillTimer(hWnd, 3);
@@ -430,7 +528,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				SetTimer(hWnd, 2, 500, NULL); // 캐릭터 애니메이션 타이머
 				SetTimer(hWnd, 1, 100, NULL); // 시간 타이머
 				SetTimer(hWnd, 11, 50, NULL); // 총알 타이머
-				SetTimer(hWnd, 10, 500, NULL);
 				SetTimer(hWnd, 8, enemySpawnTime, NULL); // 몬스터 생성 타이머
 			}
 			break;
@@ -514,9 +611,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			enemySpawnTime = max(1000, enemySpawnTime - 100); // 점점 생성 시간 짧아짐, 최소 1초
 			break;
 
-		case 10:		//중형 몬스터 움직임
-
-
+		case 10:		//보스 타이머
 			break;
 		case 11: // 총알 타이머
 			UpdateBullets(MAX_BULLETS, bullet);
@@ -749,3 +844,4 @@ void GetExp() {
 		}
 	}
 }
+
