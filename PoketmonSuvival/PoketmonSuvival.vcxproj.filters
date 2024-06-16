@@ -672,5 +672,17 @@
     <Image Include="skill_bitmap\aura4.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="map_bitmap\KakaoTalk_20240615_231039417.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\KakaoTalk_20240615_231039561.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\KakaoTalk_20240615_231039688.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="map_bitmap\KakaoTalk_20240616_185107267.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -3,4 +3,4 @@
 
 
 
-void DrawBoss(HDC mDC, HINSTANCE g_hInst, int animationNum);
+void DrawBoss(HDC mDC, HINSTANCE g_hInst, int animationNum, HBITMAP* hBoss);

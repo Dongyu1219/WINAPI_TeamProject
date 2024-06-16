@@ -91,7 +91,7 @@ int x = 575;				//캐릭터 위치
 int y = 320;
 
 // 진화
-int evolution = 2;
+int evolution = 1;
 int level = 1;
 
 //총알 데미지
@@ -105,6 +105,7 @@ int bulletLevel = 1;			//공격
 
 int enemySpawnTime = 6000;
 int monsterDirection = 3; 
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	srand((unsigned)time(NULL));
@@ -112,8 +113,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	HDC hDC, mDC, characterDC, mapDC;
 	HBITMAP hBitmap;
 	static int mx, my;								//마우스 입력
-	static HBITMAP hbitmapMap0, hbitmapWall0, hbitmapWall1, hbitmapWall2;
-	static HBITMAP  hBitmapCharacter, hBitmapPause, hBitmapMap;
+	static HBITMAP hbitmapMap0, hbitmapMap1, hbitmapMap2, hbitmapMap3;
+	static HBITMAP  hBitmapCharacter, hBitmapPause, hBitmapMap, hBoss;
 	static HBITMAP hBitmapSavedMap = NULL;
 	static HBITMAP BasicMonster, hBitmapMonster;
 	static HBITMAP hBitmapBullet;
@@ -137,11 +138,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	switch (uMsg) {
 	case WM_CREATE: {
-		hbitmapMap0 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP2));
+		hbitmapMap0 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP204));
+		hbitmapMap1 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP205));
+		hbitmapMap2 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP206));
+		hbitmapMap3 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP207));
 		hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP17));
-		hbitmapWall0 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP23));
-		hbitmapWall1 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP24));
-		hbitmapWall2 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP25));
 		hBitmapPause = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP58));
 		SetTimer(hWnd, 3, 1000, NULL); // Prsee 'p' to Start 타이머
 		// 총알 초기화
@@ -265,18 +266,37 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				SelectObject(tempMapDC, hBitmapSavedMap);
 
 				if (maptype == 0) {
-					DrawGrassMap(tempMapDC, hbitmapMap0, hbitmapWall0, hbitmapWall1, hbitmapWall2);
+					DrawGrassMap(tempMapDC, hbitmapMap2);
 				}
 				else if (maptype == 1) {
-					DrawWaterMap(tempMapDC, g_hInst);
+					DrawWaterMap(tempMapDC, hbitmapMap1);
 				}
 				else if (maptype == 2) {
-					DrawFireMap(tempMapDC, g_hInst);
+					DrawFireMap(tempMapDC, hbitmapMap0);
 				}
+				DeleteDC(tempMapDC);
+			}
+			else if (level == 10) {
+				DeleteObject(hBitmapSavedMap);
+				hBitmapSavedMap = CreateCompatibleBitmap(hDC, 2400, 1608);
+				HDC tempMapDC = CreateCompatibleDC(hDC);
+				SelectObject(tempMapDC, hBitmapSavedMap);
+
+				if (maptype == 0) {
+					DrawGrassMap(tempMapDC, hbitmapMap3);
+				}
+				else if (maptype == 1) {
+					DrawWaterMap(tempMapDC, hbitmapMap3);
+				}
+				else if (maptype == 2) {
+					DrawFireMap(tempMapDC, hbitmapMap3);
+				}
+				DrawBoss(tempMapDC, g_hInst, animationNum, &hBoss);
 				DeleteDC(tempMapDC);
 			}
 
 			GetExp();
+			
 			if (currentEXP >= 1100) {
 				level = 10;
 			}
@@ -368,19 +388,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (choose) {
 				//KillTimer(hWnd, 6);
 				DrawUpgradeMenu(mDC, g_hInst);
-				if(chooseNum == 0)skillChoices0(mDC, MAX_SKILLS, g_hInst);
+				if (chooseNum == 0)skillChoices0(mDC, MAX_SKILLS, g_hInst);
 				else if (chooseNum == 1)skillChoices1(mDC, MAX_SKILLS, g_hInst);
 				else if (chooseNum == 2)skillChoices2(mDC, MAX_SKILLS, g_hInst);
 			}
-
-		//	보스 맵
-			//if (level == 10) {
-			//	bosMode = true;
-			//}
-			//if (bosMode) {
-			//	//SetTimer(hWnd, 10, 500, NULL);
-			//	DrawBoss(mDC, g_hInst, animationNum);
-			//}
 
 
 			//멈춤pause
