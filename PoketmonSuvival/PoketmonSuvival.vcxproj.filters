@@ -705,5 +705,35 @@
     <Image Include="Player_Bitmap\berry.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="skill_bitmap\light1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\light2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\light3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\light4.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\light.right.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\light2.right.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\light3.right.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\light4.right.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\last1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="skill_bitmap\last2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

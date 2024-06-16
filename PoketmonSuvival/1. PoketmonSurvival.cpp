@@ -110,8 +110,10 @@ float angle = PI / 3;
 int enemySpawnTime = 6000;
 int monsterDirection = 3; 
 
-int BossMaxHp = 80;
+int BossMaxHp = 150;
 int BosscurrentHp = BossMaxHp;
+
+
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -121,7 +123,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	HBITMAP hBitmap;
 	static int mx, my;								//마우스 입력
 	static HBITMAP hbitmapMap0, hbitmapMap1, hbitmapMap2, hbitmapMap3;
-	static HBITMAP  hBitmapCharacter, hBitmapPause, hBitmapMap, hBoss, hOrora;
+	static HBITMAP  hBitmapCharacter, hBitmapPause, hBitmapMap, hBoss, hOrora, hLight, hLight2;
 	static HBITMAP hBitmapSavedMap = NULL;
 	static HBITMAP BasicMonster, hBitmapMonster;
 	static HBITMAP hBitmapBullet, hBomb;
@@ -142,6 +144,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	static bool choose = false;
 	static int chooseNum = 0;
 	static int  chooses = 0;
+	static int bombchose = 0;
 
 	static bool bosMode = false;
 
@@ -159,6 +162,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			bullet[i].active = false;
 		}
 	}
+
 		break;
 
 	case WM_PAINT: {
@@ -302,7 +306,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 				DrawOrora(tempMapDC, g_hInst, TextCount, &hOrora);
 				DrawBoss(tempMapDC, g_hInst, animationNum, &hBoss);
+				DrawLazer(tempMapDC, g_hInst, TextCount, &hLight, &hLight2);
+				//ColpsWithBulletLV10(BosscurrentHp);
 				DrawBossHpBox(tempMapDC, BossMaxHp, BosscurrentHp);
+				
+
 				DeleteDC(tempMapDC);
 			}
 
@@ -393,7 +401,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			// 총알 그리기
 			DrawHpBox(mDC, x, y, MaxHp, currentHp);
 			DrawBullets(g_hInst, mDC, MAX_BULLETS, bullet, bulletLevel, &hBitmapBullet);
-
+			//ColpsWithBulletLV10(BosscurrentHp);
+			// 
 			//증강
 			if ((level % 3) == 0) {
 				choose = true;
@@ -407,7 +416,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			
 			//운석
-			DrawBomb(g_hInst, mDC, MAX_BOMB, bomb, &hBomb, TextCount);
+			if(bombchose>0)DrawBomb(g_hInst, mDC, MAX_BOMB, bomb, &hBomb, TextCount);
 
 
 			//멈춤pause
@@ -421,6 +430,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			TimeBar(mDC, Timer1Count, gamePlayminute);
 			//DrawPauseBar(mDC, hBitmapPause);
 			//DrawMiniMap(mDC, g_hInst, x, y);
+
+			if (BosscurrentHp < -160) {
+				HBITMAP hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP77)); // 포켓몬 로고 이미지
+				SelectObject(mDC, hBitmap);
+				StretchBlt(hDC, 0, 0, 1200, 800, mDC, 0, 0, 1321, 931, SRCCOPY);
+				//StretchBlt(hDC, 0, 0, 1200, 800, mDC, 0, 0, 251, 190, SRCCOPY);
+				Sleep(1000);
+				PostQuitMessage(0);
+			}
 
 			BitBlt(hDC, 0, 0, rt.right, rt.bottom, mDC, 0, 0, SRCCOPY);
 
@@ -483,8 +501,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				currentEXP = currentEXP + 100;
 				//운석
-				SetTimer(hWnd, 12, 6000, NULL);
+				//SetTimer(hWnd, 12, 6000, NULL);
 				choose = false;
+				bombchose++;
 				
 			}
 			else if (chooseNum == 2) {
@@ -533,8 +552,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (chooseNum == 0) {
 			
 				//운석
-				SetTimer(hWnd, 12, 6000, NULL);
-
+				//SetTimer(hWnd, 12, 6000, NULL);
+				bombchose++;
 				currentEXP = currentEXP + 100;
 				choose = false;
 				chooseNum++;
@@ -550,7 +569,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			else if (chooseNum == 2) {
 
 				//운석
-				SetTimer(hWnd, 12, 6000, NULL);
+				bombchose++;
+				//SetTimer(hWnd, 12, 6000, NULL);
 				chooseNum++;
 				currentEXP = currentEXP + 100;
 				choose = false;
@@ -560,15 +580,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		case VK_UP: // 총알 발사
 			FireBullet(x + 20, y + 20, 0, -10, MAX_BULLETS, bullet, 3);
+			if (level == 10)BosscurrentHp = BosscurrentHp - 80;
 			break;
 		case VK_DOWN:
 			FireBullet(x + 20, y + 20, 0, +10, MAX_BULLETS, bullet, 4);
+			if (level == 10)BosscurrentHp = BosscurrentHp - 80;
 			break;
 		case VK_LEFT:
 			FireBullet(x+20, y + 20, -10, 0, MAX_BULLETS, bullet, 2);
+			if (level == 10)BosscurrentHp = BosscurrentHp - 80;
 			break;
 		case VK_RIGHT:
 			FireBullet(x + 20, y + 20, 10, 0, MAX_BULLETS, bullet, 1);
+			if (level == 10)BosscurrentHp = BosscurrentHp - 80;
 			break;
 		case VK_RETURN: 
 			if (pDown == 0) {
@@ -648,6 +672,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case 7:
 			UpdateCharacter(C_direction, &x, &y, &rect, enemy, expnc);
 			ColpsWithEnemy();
+			
 			break;
 		case 8:				//몬스터 생성 타이머 
 			for (int i = 0; i < MAX_ENEMIES; i++) {
@@ -665,6 +690,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case 11: // 총알 타이머
 			UpdateBullets(MAX_BULLETS, bullet);
 			ColpsWithBullet();
+			//if(level==10)ColpsWithBulletLV10(BosscurrentHp);
 			break;
 		case 12: //운석
 			FireBomb(MAX_BOMB, bomb);
@@ -756,6 +782,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		InvalidateRect(hWnd, NULL, false);
 			break;
 	case WM_DESTROY:
+		KillTimer(hWnd, 3);
 		PostQuitMessage(0);
 		break;
 	}
@@ -911,4 +938,6 @@ void GetExp() {
 		}
 	}
 }
+
+
 

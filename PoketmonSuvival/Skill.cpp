@@ -272,8 +272,8 @@ void FireBomb(int MAX_BOMB, Bomb* bomb)
 {
 	int bombx, bomby;
 	srand((unsigned)time(NULL));
-	bombx = rand() % 1000 + 100; 
-	bomby= rand() % 700 + 100; 
+	bombx = rand() % 1100; 
+	bomby= rand() % 800; 
 
 	for (int i = 0; i < MAX_BOMB; i++) {
 		if (!bomb[i].active) {
@@ -285,38 +285,24 @@ void FireBomb(int MAX_BOMB, Bomb* bomb)
 	}
 }
 
-void DrawBomb(HINSTANCE g_hInst, HDC mDC, int MAX_BOMB, Bomb* bomb, HBITMAP* hBomb, int TextCount) {
+void DrawBomb(HINSTANCE g_hInst, HDC mDC, int MAX_BOMB, Bomb* bomb, HBITMAP* hBomb, int animationNum) {
 	HDC hDC = CreateCompatibleDC(mDC);
-	for (int i = 0; i < MAX_BOMB; i++) {
-		if (bomb[i].active) {
-		//	if (*hBomb) {
-		//		DeleteObject(hBomb);
-		//	}
+	int bombx, bomby;
+	srand((unsigned)time(NULL));
+	bombx = rand() % 2000 + 100;
+	bomby = rand() % 1600+ 100;
 
-			if (TextCount % 6 == 0) {
-				*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP208));
-			}
-			else if (TextCount % 6 == 1) {
-				*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP209));
-			}
-			else if (TextCount % 6 == 2) {
-				*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP210));
-			}
-			else if (TextCount % 6 == 3) {
-				*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP211));
-			}
-			else if (TextCount % 6 == 4) {
-				*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP212));
-			}
-			else if (TextCount % 6 == 5) {
-				bomb[i].active = false;
-			}
-
-			SelectObject(mDC, *hBomb);
-			TransparentBlt(mDC, bomb[i].x, bomb[i].y, 83, 122, hDC, 0, 0, 83, 122, RGB(255, 255, 255));
-
-		}
+	if (animationNum == 0) {
+		*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP222));
 	}
+	else if (animationNum == 1) {
+		*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP223));
+	}
+
+	SelectObject(hDC, *hBomb);
+	TransparentBlt(mDC, bombx, bomby, 66, 116, hDC, 0, 0, 66, 116, RGB(255, 255, 255));
+
+
 	DeleteDC(hDC);
 }
 

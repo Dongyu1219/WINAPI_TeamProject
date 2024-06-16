@@ -24,7 +24,7 @@ void DrawBullets(HINSTANCE g_hInst, HDC mDC, int MAX_BULLETS, Bullet* bullets, i
 
 
 void FireBomb(int MAX_BOMB, Bomb *bomb);
-void DrawBomb(HINSTANCE g_hInst, HDC mDC, int MAX_BULLETS, Bomb *bomb, HBITMAP* hBomb, int TextCount);
+void DrawBomb(HINSTANCE g_hInst, HDC mDC, int MAX_BULLETS, Bomb *bomb, HBITMAP* hBomb, int animationNum);
 
 void skillChoices0(HDC mDC, int SKILLS, HINSTANCE g_hInst);
 void skillChoices1(HDC mDC, int SKILLS, HINSTANCE g_hInst);

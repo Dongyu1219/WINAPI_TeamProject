@@ -343,6 +343,16 @@
     <Image Include="skill_bitmap\aura2.bmp" />
     <Image Include="skill_bitmap\aura3.bmp" />
     <Image Include="skill_bitmap\aura4.bmp" />
+    <Image Include="skill_bitmap\last1.bmp" />
+    <Image Include="skill_bitmap\last2.bmp" />
+    <Image Include="skill_bitmap\light.right.bmp" />
+    <Image Include="skill_bitmap\light1.bmp" />
+    <Image Include="skill_bitmap\light2.bmp" />
+    <Image Include="skill_bitmap\light2.right.bmp" />
+    <Image Include="skill_bitmap\light3.bmp" />
+    <Image Include="skill_bitmap\light3.right.bmp" />
+    <Image Include="skill_bitmap\light4.bmp" />
+    <Image Include="skill_bitmap\light4.right.bmp" />
     <Image Include="skill_bitmap\water_attack1.bmp" />
     <Image Include="skill_bitmap\water_attack2.bmp" />
     <Image Include="skill_bitmap\water_attack3.bmp" />
