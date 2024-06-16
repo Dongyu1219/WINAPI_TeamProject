@@ -260,3 +260,49 @@ void skillChoices2(HDC mDC, int SKILLS, HINSTANCE g_hInst) {
 	DeleteDC(hmemDC);
 	DeleteObject(hFont);
 }
+
+
+void FireBomb(int MAX_BOMB, Bomb* bomb)
+{
+	int bombx, bomby;
+	srand((unsigned)time(NULL));
+	bombx = rand() % 1000 + 100; // 적 캐릭터의 x 좌표
+	 bomby= rand() % 700 + 100; // 적 캐릭터의 y 좌표
+
+	for (int i = 0; i < MAX_BOMB; i++) {
+		if (!bomb[i].active) {
+			bomb[i].x = bombx;
+			bomb[i].y = bomby;
+			bomb[i].active = true;
+			break;
+		}
+	}
+}
+
+
+void DrawBomb(HINSTANCE g_hInst, HDC mDC, int MAX_BOMB, Bomb* bomb, HBITMAP* hBomb, int TextCount) {
+	HDC hDC = CreateCompatibleDC(mDC);
+	for (int i = 0; i < MAX_BOMB; i++) {
+		if (bomb[i].active) {
+			if (TextCount % 6 == 0) {
+				*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP208));
+			}
+			else if (TextCount % 6 == 1) {
+				*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP209));
+			}
+			else if (TextCount % 6 == 2) {
+				*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP210));
+			}
+			else if (TextCount % 6 == 3) {
+				*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP211));
+			}
+			else if (TextCount % 6 == 4) {
+				*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP212));
+			}
+
+			SelectObject(mDC, hBomb);
+			TransparentBlt(mDC, bomb[i].x, bomb[i].y, 83, 122, hDC, 0, 0, 83, 122, RGB(255, 255, 255));
+		}
+	}
+
+}

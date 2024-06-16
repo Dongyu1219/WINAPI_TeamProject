@@ -346,6 +346,11 @@
     <Image Include="skill_bitmap\water_attack3.bmp" />
     <Image Include="skill_bitmap\water_attack4.bmp" />
     <Image Include="upgrade_bitmap\bomb.bmp" />
+    <Image Include="upgrade_bitmap\bomb1.bmp" />
+    <Image Include="upgrade_bitmap\bomb2.bmp" />
+    <Image Include="upgrade_bitmap\bomb3.bmp" />
+    <Image Include="upgrade_bitmap\bomb4.bmp" />
+    <Image Include="upgrade_bitmap\bomb5.bmp" />
     <Image Include="upgrade_bitmap\expBoost.bmp" />
     <Image Include="upgrade_bitmap\plusPower.bmp" />
     <Image Include="upgrade_bitmap\tonadoK.bmp" />

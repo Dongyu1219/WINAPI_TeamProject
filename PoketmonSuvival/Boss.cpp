@@ -3,8 +3,8 @@
 #include "resource1.h"
 
 //기라티나: 198 199
-//ㅇ:200 201 202 203
-HBITMAP hBoss;
+
+//HBITMAP hBoss, hOrora;
 
 void DrawBoss(HDC mDC, HINSTANCE g_hInst, int animationNum, HBITMAP* hBoss) {
 
@@ -22,6 +22,42 @@ void DrawBoss(HDC mDC, HINSTANCE g_hInst, int animationNum, HBITMAP* hBoss) {
 	}
 
 	SelectObject(hDC, *hBoss);
-	TransparentBlt(mDC, 1100, 700, 234, 200, hDC, 0, 0, 58, 50, RGB(0, 0, 128));
+	TransparentBlt(mDC, 1100, 700, 58*5, 50*5, hDC, 0, 0, 58, 50, RGB(0, 0, 128));
 	DeleteDC(hDC);
+}
+
+void DrawOrora(HDC mDC, HINSTANCE g_hInst, int TextCount, HBITMAP* hOrora){
+
+	if (*hOrora) {
+		DeleteObject(*hOrora);
+	}
+
+	HDC hDC = CreateCompatibleDC(mDC);
+
+	if ((TextCount%4) == 0) {
+		*hOrora = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP200));
+	}
+	else if ((TextCount%4) == 1) {
+		*hOrora = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP201));
+	}
+	else if ((TextCount % 4) == 2) {
+		*hOrora = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP202));
+	}
+	else if ((TextCount % 4) == 3) {
+		*hOrora = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP203));
+	}
+
+	SelectObject(hDC, *hOrora);
+	TransparentBlt(mDC, 1082, 755, 62*5, 62*5, hDC, 0, 0, 62, 62, RGB(255, 255, 255));
+	DeleteDC(hDC);
+}
+
+void DrawBossHpBox(HDC mDC, int BossMaxHp, int BosscurrentHp) {
+	Rectangle(mDC, 1237 - BossMaxHp, 680, 1237 + BossMaxHp, 692);
+
+	HBRUSH hBrush = CreateSolidBrush(RGB(128, 50, 128));
+	HBRUSH oldBrush = (HBRUSH)SelectObject(mDC, hBrush);
+	Rectangle(mDC, 1237 - BossMaxHp, 680, 1237 + BossMaxHp-20, 692);
+	SelectObject(mDC, oldBrush);
+	DeleteObject(hBrush);
 }

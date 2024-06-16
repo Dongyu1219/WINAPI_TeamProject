@@ -684,5 +684,20 @@
     <Image Include="map_bitmap\KakaoTalk_20240616_185107267.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="upgrade_bitmap\bomb1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="upgrade_bitmap\bomb2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="upgrade_bitmap\bomb3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="upgrade_bitmap\bomb4.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="upgrade_bitmap\bomb5.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

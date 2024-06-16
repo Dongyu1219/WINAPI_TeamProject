@@ -13,6 +13,7 @@
 //WIDTH  200
 //HEIGHT 100
 #define MAX_BULLETS 200 // 총알 개수
+#define MAX_BOMB 100
 #define MAX_SKILLS 10 
 
 
@@ -66,6 +67,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 // 총알
 Bullet bullet[MAX_BULLETS];
 Enemy enemy[MAX_ENEMIES];
+Bomb bomb[MAX_BOMB];
 Skills skills[MAX_SKILLS];
 
 Exp expnc[100];
@@ -106,6 +108,9 @@ int bulletLevel = 1;			//공격
 int enemySpawnTime = 6000;
 int monsterDirection = 3; 
 
+int BossMaxHp = 80;
+int BosscurrentHp = BossMaxHp;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	srand((unsigned)time(NULL));
@@ -114,10 +119,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	HBITMAP hBitmap;
 	static int mx, my;								//마우스 입력
 	static HBITMAP hbitmapMap0, hbitmapMap1, hbitmapMap2, hbitmapMap3;
-	static HBITMAP  hBitmapCharacter, hBitmapPause, hBitmapMap, hBoss;
+	static HBITMAP  hBitmapCharacter, hBitmapPause, hBitmapMap, hBoss, hOrora;
 	static HBITMAP hBitmapSavedMap = NULL;
 	static HBITMAP BasicMonster, hBitmapMonster;
-	static HBITMAP hBitmapBullet;
+	static HBITMAP hBitmapBullet, hBomb;
 	RECT rt;
 	static int Timer1Count, gamePlayminute = 0;		//게임 플레이 타이머
 	static int pauseCount = 0;
@@ -130,10 +135,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	static int mainx = 575;				//캐릭터 초기위치
 	static int mainy = 320;
 	static int begin = 0;
-	static int bomb = 0;
+
 
 	static bool choose = false;
 	static int chooseNum = 0;
+	static int  chooses = 1;
+
 	static bool bosMode = false;
 
 	switch (uMsg) {
@@ -144,7 +151,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		hbitmapMap3 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP207));
 		hBitmapCharacter = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP17));
 		hBitmapPause = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP58));
-		SetTimer(hWnd, 3, 1000, NULL); // Prsee 'p' to Start 타이머
+		SetTimer(hWnd, 3, 500, NULL); // Prsee 'p' to Start 타이머
 		// 총알 초기화
 		for (int i = 0; i < MAX_BULLETS; i++) {
 			bullet[i].active = false;
@@ -202,7 +209,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SetTextColor(hDC, RGB(0, 0, 0));
 			hFont = CreateFont(100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Courier New");
 			oldFont = (HFONT)SelectObject(hDC, hFont);
-			if (TextCount == 0) {
+			if ((TextCount%2) == 0) {
 				TextOut(hDC, 55, 605, L"Press Enter to Start", lstrlen(L"Press Enter To Start"));
 				SetTextColor(hDC, RGB(255, 255, 255));
 				hFont = CreateFont(100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Courier New");
@@ -291,7 +298,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				else if (maptype == 2) {
 					DrawFireMap(tempMapDC, hbitmapMap3);
 				}
+				DrawOrora(tempMapDC, g_hInst, TextCount, &hOrora);
 				DrawBoss(tempMapDC, g_hInst, animationNum, &hBoss);
+				DrawBossHpBox(tempMapDC, BossMaxHp, BosscurrentHp);
 				DeleteDC(tempMapDC);
 			}
 
@@ -392,7 +401,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				else if (chooseNum == 1)skillChoices1(mDC, MAX_SKILLS, g_hInst);
 				else if (chooseNum == 2)skillChoices2(mDC, MAX_SKILLS, g_hInst);
 			}
-
+			
+			//운석
+			DrawBomb(g_hInst, mDC, MAX_BOMB, bomb, &hBomb, TextCount);
 
 			//멈춤pause
 			if (maptype == 4) {
@@ -456,64 +467,88 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case 'Y':
 			if (chooseNum == 0) {
 				chooseNum++;
-				level++;
+
+				currentEXP = currentEXP + 100;
 				MaxHp = MaxHp + 5;
 				choose = false;
+				chooses++;
 			}
 			else if (chooseNum == 1) {
 				chooseNum++;
-				level++;
+
+				currentEXP = currentEXP + 100;
 				//운석
+				SetTimer(hWnd, 12, 6000, NULL);
 				choose = false;
+				chooses++;
 			}
 			else if (chooseNum == 2) {
 				chooseNum++;
-				level++;
+
+				currentEXP = currentEXP + 100;
 				MaxHp = MaxHp + 10;
 				choose = false;
+				chooses++;
 			}
 			break;
 		case 'b':
 		case 'B':
 			if (chooseNum == 0) {
-				chooseNum++;
-				level++;
+				
 				//토네이도
+				chooseNum++;
+
+				currentEXP = currentEXP + 100;
 				choose = false;
+				chooses++;
 			}
 			else if (chooseNum == 1) {
-				chooseNum++;
-				level++;
+		
 				MaxHp = MaxHp + 10;
+				chooseNum++;
+
+				currentEXP = currentEXP + 100;
 				choose = false;
+				chooses++;
 			}
 			else if (chooseNum == 2) {
-				chooseNum++;
-				level++;
+			
 				damage = damage + 20;
+				chooseNum++;
+
+				currentEXP = currentEXP + 100;
 				choose = false;
+				chooses++;
 			}
 			
 			break;
 		case 'p':
 		case 'P':
 			if (chooseNum == 0) {
-				chooseNum++;
-				level++;
+			
 				//운석
+				SetTimer(hWnd, 12, 6000, NULL);
+
+				currentEXP = currentEXP + 100;
 				choose = false;
+				chooses++;
 			}
 			else if (chooseNum == 1) {
-				chooseNum++;
-				level++;
+		
 				damage = damage + 20;
+				chooseNum++;
+				currentEXP = currentEXP + 100;
 				choose = false;
+				chooses++;
 			}
 			else if (chooseNum == 2) {
-				chooseNum++;
-				level++;
+
 				//운석
+				SetTimer(hWnd, 12, 6000, NULL);
+				chooseNum++;
+				currentEXP = currentEXP + 100;
 				choose = false;
+				chooses++;
 			}
 			break;
 
@@ -532,7 +567,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case VK_RETURN: 
 			if (pDown == 0) {
 				pDown = 1;
-				KillTimer(hWnd, 3);
+				//KillTimer(hWnd, 3);
 			}
 			else if (pDown == 1) {
 				pDown = 2;
@@ -599,10 +634,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case 3: // Press 'p' to Start 타이머
-			if (TextCount == 0) {
-				TextCount = 1;
-			}
-			else TextCount = 0;
+			TextCount++;
 			break;
 		case 4: // 방향키 타이머
 		case 5:
@@ -628,6 +660,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			UpdateBullets(MAX_BULLETS, bullet);
 			ColpsWithBullet();
 			break;
+		case 12: //운석
+			FireBomb(MAX_BOMB, bomb);
+			break;
+
 		}
 		InvalidateRect(hWnd, NULL, false);
 		break;
