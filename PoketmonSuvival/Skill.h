@@ -29,3 +29,5 @@ void DrawBomb(HINSTANCE g_hInst, HDC mDC, int MAX_BULLETS, Bomb *bomb, HBITMAP* 
 void skillChoices0(HDC mDC, int SKILLS, HINSTANCE g_hInst);
 void skillChoices1(HDC mDC, int SKILLS, HINSTANCE g_hInst);
 void skillChoices2(HDC mDC, int SKILLS, HINSTANCE g_hInst);
+
+void DrawRotatingBullet(HDC mDC, int mainx, int mainy, int angle);

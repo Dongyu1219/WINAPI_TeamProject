@@ -2,12 +2,17 @@
 #include <time.h>
 #include <tchar.h>
 #include "resource1.h"
+#include "math.h"
 #include "Skill.h"
+
+
+#define PI 3.14159265
 
 static HBITMAP hSkillMenu1, hSkillMenu2, hSkillMenu3;	//190 191 192
 //193 운석
 //194 진화의 돌
 //195 부스트 업
+
 
 void DrawHpBox(HDC mDC, int x, int y, int MaxHp, int currentHp) {
 	Rectangle(mDC, x + 22 - MaxHp, y - 12, x + 22 + MaxHp, y  - 5);
@@ -267,8 +272,8 @@ void FireBomb(int MAX_BOMB, Bomb* bomb)
 {
 	int bombx, bomby;
 	srand((unsigned)time(NULL));
-	bombx = rand() % 1000 + 100; // 적 캐릭터의 x 좌표
-	bomby= rand() % 700 + 100; // 적 캐릭터의 y 좌표
+	bombx = rand() % 1000 + 100; 
+	bomby= rand() % 700 + 100; 
 
 	for (int i = 0; i < MAX_BOMB; i++) {
 		if (!bomb[i].active) {
@@ -280,14 +285,13 @@ void FireBomb(int MAX_BOMB, Bomb* bomb)
 	}
 }
 
-
 void DrawBomb(HINSTANCE g_hInst, HDC mDC, int MAX_BOMB, Bomb* bomb, HBITMAP* hBomb, int TextCount) {
 	HDC hDC = CreateCompatibleDC(mDC);
 	for (int i = 0; i < MAX_BOMB; i++) {
 		if (bomb[i].active) {
-			if (*hBomb) {
-				DeleteObject(hBomb);
-			}
+		//	if (*hBomb) {
+		//		DeleteObject(hBomb);
+		//	}
 
 			if (TextCount % 6 == 0) {
 				*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP208));
@@ -304,10 +308,34 @@ void DrawBomb(HINSTANCE g_hInst, HDC mDC, int MAX_BOMB, Bomb* bomb, HBITMAP* hBo
 			else if (TextCount % 6 == 4) {
 				*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP212));
 			}
+			else if (TextCount % 6 == 5) {
+				bomb[i].active = false;
+			}
 
-			SelectObject(mDC, hBomb);
+			SelectObject(mDC, *hBomb);
 			TransparentBlt(mDC, bomb[i].x, bomb[i].y, 83, 122, hDC, 0, 0, 83, 122, RGB(255, 255, 255));
+
 		}
 	}
 	DeleteDC(hDC);
+}
+
+
+void DrawRotatingBullet(HDC mDC, int mainx, int mainy, int angle) {
+	HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 255)); // 새로운 객체 만들기: 브러쉬
+	HBRUSH oldBrush = (HBRUSH)SelectObject(mDC, hBrush);
+
+	for (int j = 6; j > 0; j--)
+	{
+
+			for (int i = 0; i < j; i++)
+			{
+				Ellipse(mDC, mainx-12  + 35 * cos(angle + (PI / 3) * i) - 7+50, mainy  + 35 * sin(angle + (PI / 3) * i) - 7 + 50, mainx-12  + 35 * cos(angle + (PI / 3) * i) + 7 + 50, mainy  + 35 * sin(angle + (PI / 3) * i) + 7 + 50);
+			}
+	}
+
+	SelectObject(mDC, oldBrush);
+
+	DeleteObject(hBrush);
+
 }

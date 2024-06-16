@@ -15,7 +15,7 @@
 #define MAX_BULLETS 200 // 총알 개수
 #define MAX_BOMB 100
 #define MAX_SKILLS 10 
-
+#define PI 3.14159265
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class Name";
@@ -105,6 +105,8 @@ int MaxHp = 20;				//체력
 int currentHp = MaxHp;
 int bulletLevel = 1;			//공격
 
+float angle = PI / 3;
+
 int enemySpawnTime = 6000;
 int monsterDirection = 3; 
 
@@ -139,7 +141,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	static bool choose = false;
 	static int chooseNum = 0;
-	static int  chooses = 1;
+	static int  chooses = 0;
 
 	static bool bosMode = false;
 
@@ -344,7 +346,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			StretchBlt(mDC, 0, 0, rt.right, rt.bottom, mapDC, rect.left, rect.top, 1200, 800, SRCCOPY);
 
 			DrawExp(expnc, mDC, g_hInst);
-
+			if (chooses == 1)DrawRotatingBullet(mDC, x, y, angle);
 			//캐릭터
 			GetCharacterImage(C_direction, animationNum, &hBitmapCharacter, g_hInst, characterNum, evolution);
 			DrawCharacter(mDC, characterDC, hBitmapCharacter, x, y, evolution);
@@ -406,6 +408,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			
 			//운석
 			DrawBomb(g_hInst, mDC, MAX_BOMB, bomb, &hBomb, TextCount);
+
 
 			//멈춤pause
 			if (maptype == 4) {
@@ -473,7 +476,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				currentEXP = currentEXP + 100;
 				MaxHp = MaxHp + 5;
 				choose = false;
-				chooses++;
+				
 			}
 			else if (chooseNum == 1) {
 				chooseNum++;
@@ -482,7 +485,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				//운석
 				SetTimer(hWnd, 12, 6000, NULL);
 				choose = false;
-				chooses++;
+				
 			}
 			else if (chooseNum == 2) {
 				chooseNum++;
@@ -490,7 +493,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				currentEXP = currentEXP + 100;
 				MaxHp = MaxHp + 10;
 				choose = false;
-				chooses++;
+			
 			}
 			break;
 		case 'b':
@@ -499,10 +502,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				
 				//토네이도
 				chooseNum++;
-
+				SetTimer(hWnd, 13, 200, NULL);
 				currentEXP = currentEXP + 100;
 				choose = false;
 				chooses++;
+			
 			}
 			else if (chooseNum == 1) {
 		
@@ -511,7 +515,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				currentEXP = currentEXP + 100;
 				choose = false;
-				chooses++;
+			
 			}
 			else if (chooseNum == 2) {
 			
@@ -520,7 +524,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				currentEXP = currentEXP + 100;
 				choose = false;
-				chooses++;
+				
 			}
 			
 			break;
@@ -533,7 +537,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				currentEXP = currentEXP + 100;
 				choose = false;
-				chooses++;
+				chooseNum++;
 			}
 			else if (chooseNum == 1) {
 		
@@ -541,7 +545,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				chooseNum++;
 				currentEXP = currentEXP + 100;
 				choose = false;
-				chooses++;
+				
 			}
 			else if (chooseNum == 2) {
 
@@ -550,7 +554,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				chooseNum++;
 				currentEXP = currentEXP + 100;
 				choose = false;
-				chooses++;
+				
 			}
 			break;
 
@@ -653,7 +657,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					break;
 				}
 			}
-			enemySpawnTime = max(1000, enemySpawnTime - 100); // 점점 생성 시간 짧아짐, 최소 1초
+			enemySpawnTime = max(400, enemySpawnTime - 500); 
 			break;
 
 		case 10:		//보스 타이머
@@ -665,7 +669,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case 12: //운석
 			FireBomb(MAX_BOMB, bomb);
 			break;
-
+		case 13:
+			angle += 6;
+			break;
 		}
 		InvalidateRect(hWnd, NULL, false);
 		break;
