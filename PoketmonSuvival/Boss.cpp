@@ -65,6 +65,13 @@ void DrawBossHpBox(HDC mDC, int BossMaxHp, int BosscurrentHp) {
 void DrawLazer(HDC mDC, HINSTANCE g_hInst, int TextCount, HBITMAP* hLight, HBITMAP* hLight2) {
 	HDC hDC = CreateCompatibleDC(mDC);
 
+	if (*hLight) {
+		DeleteObject(*hLight);
+	}
+	if (*hLight2) {
+		DeleteObject(*hLight2);
+	}
+
 	if ((TextCount % 4) == 0) {
 		*hLight = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP217));
 		*hLight2 = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP221));

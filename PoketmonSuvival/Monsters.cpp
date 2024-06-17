@@ -194,7 +194,6 @@ void DrawPhantom(HDC mDC, int x, int y, HBITMAP hBitmapGyara, int monsterDirecti
 }
 
 void CreateEnemy(HWND g_hWnd, int* x, int* y, int* type, int* hp, int evolution) {
-	srand((unsigned)time(NULL));
 	*x = rand() % 1000+100; // 적 캐릭터의 x 좌표
 	*y = rand() % 700 + 100; // 적 캐릭터의 y 좌표
 	*type = rand() % evolution; // 0 1 2

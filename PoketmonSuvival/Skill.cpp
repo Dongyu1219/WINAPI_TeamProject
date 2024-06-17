@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <time.h>
 #include <tchar.h>
+#include <random>
 #include "resource1.h"
 #include "math.h"
 #include "Skill.h"
@@ -136,7 +137,6 @@ void DrawBullets(HINSTANCE g_hInst, HDC mDC, int MAX_BULLETS, Bullet* bullets, i
 		DeleteDC(hDC);
 		}
 }
-
 void skillChoices0(HDC mDC, int SKILLS, HINSTANCE g_hInst) {
 	HDC hmemDC = CreateCompatibleDC(mDC);
 HFONT hFont, hFont1, oldfont;
@@ -268,29 +268,19 @@ void skillChoices2(HDC mDC, int SKILLS, HINSTANCE g_hInst) {
 }
 
 
-void FireBomb(int MAX_BOMB, Bomb* bomb)
-{
-	int bombx, bomby;
+void DrawBomb(HINSTANCE g_hInst, HDC mDC, int MAX_BOMB, Bomb bomb, HBITMAP* hBomb, int animationNum) {
 	srand((unsigned)time(NULL));
-	bombx = rand() % 1100; 
-	bomby= rand() % 800; 
-
-	for (int i = 0; i < MAX_BOMB; i++) {
-		if (!bomb[i].active) {
-			bomb[i].x = bombx;
-			bomb[i].y = bomby;
-			bomb[i].active = true;
-			break;
-		}
-	}
-}
-
-void DrawBomb(HINSTANCE g_hInst, HDC mDC, int MAX_BOMB, Bomb* bomb, HBITMAP* hBomb, int animationNum) {
 	HDC hDC = CreateCompatibleDC(mDC);
 	int bombx, bomby;
-	srand((unsigned)time(NULL));
+	int rr;
+
+	rr = rand() % 100;
 	bombx = rand() % 1100 + 100;
-	bomby = rand() % 600+ 100;
+	bomby = rand() % 600 + 100;
+
+	if (*hBomb) {
+		DeleteObject(*hBomb);
+	}
 
 	if (animationNum == 0) {
 		*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP222));
@@ -316,7 +306,7 @@ void DrawRotatingBullet(HDC mDC, int mainx, int mainy, int angle) {
 
 			for (int i = 0; i < j; i++)
 			{
-				Ellipse(mDC, mainx-12  + 35 * cos(angle + (PI / 3) * i) - 7+50, mainy  + 35 * sin(angle + (PI / 3) * i) - 7 + 50, mainx-12  + 35 * cos(angle + (PI / 3) * i) + 7 + 50, mainy  + 35 * sin(angle + (PI / 3) * i) + 7 + 50);
+				Ellipse(mDC, mainx-12  + 40 * cos(angle + (PI / 3) * i) - 7+50, mainy  + 40 * sin(angle + (PI / 3) * i) - 7 + 50, mainx-12  + 40 * cos(angle + (PI / 3) * i) + 7 + 50, mainy  + 40 * sin(angle + (PI / 3) * i) + 7 + 50);
 			}
 	}
 

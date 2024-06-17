@@ -67,7 +67,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 // 총알
 Bullet bullet[MAX_BULLETS];
 Enemy enemy[MAX_ENEMIES];
-Bomb bomb[MAX_BOMB];
+Bomb bomb;
 Skills skills[MAX_SKILLS];
 
 Exp expnc[100];
@@ -180,6 +180,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		Rectangle(mapDC, 0, 0, 2600, 1608);
 
 		if (intro == 0) {
+			
 			HDC IntroDC = CreateCompatibleDC(hDC);
 			HBITMAP hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP59)); // 포켓몬 로고 이미지
 
@@ -397,6 +398,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 			}
 
+			//운석
+			if (bombchose > 0) {
+				DrawBomb(g_hInst, mDC, MAX_BOMB, bomb, &hBomb, animationNum);
+			}
+
 
 			// 총알 그리기
 			DrawHpBox(mDC, x, y, MaxHp, currentHp);
@@ -415,8 +421,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				else if (chooseNum == 2)skillChoices2(mDC, MAX_SKILLS, g_hInst);
 			}
 			
-			//운석
-			if(bombchose>0)DrawBomb(g_hInst, mDC, MAX_BOMB, bomb, &hBomb, TextCount);
 
 
 			//멈춤pause
@@ -432,11 +436,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			//DrawMiniMap(mDC, g_hInst, x, y);
 
 			if (BosscurrentHp < -160) {
+				HFONT hFont, oldFont;
 				HBITMAP hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP77)); // 포켓몬 로고 이미지
 				SelectObject(mDC, hBitmap);
 				StretchBlt(hDC, 0, 0, 1200, 800, mDC, 0, 0, 1321, 931, SRCCOPY);
+				SetTextColor(hDC, RGB(0, 0, 0));
+				hFont = CreateFont(100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Courier New");
+				oldFont = (HFONT)SelectObject(hDC, hFont);
+				TextOut(hDC, 300, 500, L"Game Clear!", lstrlen(L"Game Clear!"));
+
 				//StretchBlt(hDC, 0, 0, 1200, 800, mDC, 0, 0, 251, 190, SRCCOPY);
-				Sleep(1000);
+				Sleep(10000);
 				PostQuitMessage(0);
 			}
 
@@ -672,17 +682,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case 7:
 			UpdateCharacter(C_direction, &x, &y, &rect, enemy, expnc);
 			ColpsWithEnemy();
-			
+
 			break;
 		case 8:				//몬스터 생성 타이머 
-			for (int i = 0; i < MAX_ENEMIES; i++) {
-				if (!enemy[i].active) {
-					enemy[i].active = 1;
-					CreateEnemy(hWnd, &(enemy[i].x), &(enemy[i].y), &(enemy[i].type), &(enemy[i].hp), evolution);
-					break;
+			srand((unsigned)time(NULL));
+			for (int j = 0; j < evolution + 1; j++) {
+				for (int i = 0; i < MAX_ENEMIES; i++) {
+					if (!enemy[i].active) {
+						enemy[i].active = 1;
+						CreateEnemy(hWnd, &(enemy[i].x), &(enemy[i].y), &(enemy[i].type), &(enemy[i].hp), evolution);
+						break;
+					}
 				}
 			}
-			enemySpawnTime = max(400, enemySpawnTime - 500); 
+
+				enemySpawnTime = max(400, enemySpawnTime - 500);
 			break;
 
 		case 10:		//보스 타이머
@@ -690,10 +704,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case 11: // 총알 타이머
 			UpdateBullets(MAX_BULLETS, bullet);
 			ColpsWithBullet();
-			//if(level==10)ColpsWithBulletLV10(BosscurrentHp);
-			break;
-		case 12: //운석
-			FireBomb(MAX_BOMB, bomb);
 			break;
 		case 13:
 			angle += 6;
@@ -793,7 +803,7 @@ void ColpsWithBullet() {
 	for (int i = 0; i <  MAX_BULLETS; i++) {
 		if (bullet[i].active) {
 			for (int j = 0; j < MAX_ENEMIES; j++) {
-				if (enemy[i].active) {
+				if (enemy[j].active) {
 					RECT rect, rect2;
 					if (bulletLevel == 3) {
 						switch (bullet[i].bulletDirection) { // rect 설정
@@ -838,7 +848,7 @@ void ColpsWithBullet() {
 						bullet[i].active = false;
 						enemy[j].hp -= damage;
 						if (enemy[j].hp <= 0) {
-							enemy[i].active = false;
+							enemy[j].active = false;
 							DropExp(enemy[j].type, enemy[j].x, enemy[j].y);
 						}
 					}
@@ -931,7 +941,9 @@ void GetExp() {
 				&& (rect.bottom > rect2.top) && (rect.top < rect2.bottom)) {
 				expnc[i].active = false;
 				if (expnc[i].type == 3) {
-					currentHp += 10;
+					if (currentHp < MaxHp) {
+						currentHp += 10;
+					}
 				}
 				else currentEXP += getExp;
 			}
