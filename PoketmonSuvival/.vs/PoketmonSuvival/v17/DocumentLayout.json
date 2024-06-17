@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|solutionrelative:Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\1. PoketmonSurvival.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|solutionrelative:1. PoketmonSurvival.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Skill.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|solutionrelative:Skill.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\resource1.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|solutionrelative:resource1.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|solutionrelative:Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|solutionrelative:Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Monsters.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -37,10 +45,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Boss.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|solutionrelative:Boss.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{7A744FA2-D7AE-4225-9CF4-267A769AAEC1}|PoketmonSuvival.vcxproj|solutionrelative:Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,7 +54,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,7 +74,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
+              "Title": "resource1.h",
+              "DocumentMoniker": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\resource1.h",
+              "RelativeDocumentMoniker": "resource1.h",
+              "ToolTip": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\resource1.h",
+              "RelativeToolTip": "resource1.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAADwvwAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-06-17T04:21:50.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "berry.bmp - Bitmap [25x25, 32\uBE44\uD2B8, BMP]",
               "DocumentMoniker": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Player_Bitmap\\berry.bmp",
               "RelativeDocumentMoniker": "Player_Bitmap\\berry.bmp",
@@ -81,32 +98,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Player.cpp",
               "DocumentMoniker": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Player.cpp",
               "RelativeDocumentMoniker": "Player.cpp",
               "ToolTip": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Player.cpp",
               "RelativeToolTip": "Player.cpp",
-              "ViewState": "AQIAAOEBAAAAAAAAAAAAAPcBAAA/AAAA",
+              "ViewState": "AQIAAOABAAAAAAAAAAAqwOoBAAAKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-06-16T12:52:18.062Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Skill.cpp",
               "DocumentMoniker": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Skill.cpp",
               "RelativeDocumentMoniker": "Skill.cpp",
               "ToolTip": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Skill.cpp",
               "RelativeToolTip": "Skill.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAABkAAAA",
+              "ViewState": "AQIAACcBAAAAAAAAAAAAACQBAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-06-16T12:50:40.403Z"
+              "WhenOpened": "2024-06-16T12:50:40.403Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Boss.cpp",
               "DocumentMoniker": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Boss.cpp",
               "RelativeDocumentMoniker": "Boss.cpp",
@@ -118,20 +136,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "1. PoketmonSurvival.cpp",
               "DocumentMoniker": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\1. PoketmonSurvival.cpp",
               "RelativeDocumentMoniker": "1. PoketmonSurvival.cpp",
               "ToolTip": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\1. PoketmonSurvival.cpp",
               "RelativeToolTip": "1. PoketmonSurvival.cpp",
-              "ViewState": "AQIAAFEDAAAAAAAAAAAIwFUDAAADAAAA",
+              "ViewState": "AQIAAF0DAAAAAAAAAAAAAEMDAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-06-14T14:35:56.287Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "Boss.h",
               "DocumentMoniker": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Boss.h",
               "RelativeDocumentMoniker": "Boss.h",
@@ -143,7 +161,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "StageUI.cpp",
               "DocumentMoniker": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\StageUI.cpp",
               "RelativeDocumentMoniker": "StageUI.cpp",
@@ -156,6 +174,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "Player.h",
+              "DocumentMoniker": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Player.h",
+              "RelativeDocumentMoniker": "Player.h",
+              "ToolTip": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Player.h",
+              "RelativeToolTip": "Player.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAABfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-06-14T15:24:08.584Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Monsters.cpp",
               "DocumentMoniker": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Monsters.cpp",
               "RelativeDocumentMoniker": "Monsters.cpp",
@@ -167,7 +198,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "Monsters.h",
               "DocumentMoniker": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Monsters.h",
               "RelativeDocumentMoniker": "Monsters.h",
@@ -176,18 +207,6 @@
               "ViewState": "AQIAAAAAAAAAAAAAAADwvxQAAABTAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-06-14T14:36:03.737Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Player.h",
-              "DocumentMoniker": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Player.h",
-              "RelativeDocumentMoniker": "Player.h",
-              "ToolTip": "C:\\GitHub\\WINAPI_TeamProject\\PoketmonSuvival\\Player.h",
-              "RelativeToolTip": "Player.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAABfAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-06-14T15:24:08.584Z"
             }
           ]
         }

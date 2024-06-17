@@ -833,7 +833,7 @@ void ColpsWithBullet() {
 						break;
 					}
 
-					if ((rect.right > rect2.left) && (rect.left < rect.right)
+					if ((rect.right > rect2.left) && (rect.left < rect2.right)
 						&& (rect.bottom > rect2.top) && (rect.top < rect2.bottom)) {
 						bullet[i].active = false;
 						enemy[j].hp -= damage;
@@ -878,7 +878,7 @@ void ColpsWithEnemy() {
 				damage1 = 7;
 				break;
 			}
-			if ((rect.right > rect2.left) && (rect.left < rect.right)
+			if ((rect.right > rect2.left) && (rect.left < rect2.right)
 				&& (rect.bottom > rect2.top) && (rect.top < rect2.bottom)) {
 				if (currentHp > 0) {
 					currentHp -= 3;
@@ -927,7 +927,7 @@ void GetExp() {
 				break;
 			}
 			rect2 = { x, y, x + 50, y + 50 };
-			if ((rect.right > rect2.left) && (rect.left < rect.right)
+			if ((rect.right > rect2.left) && (rect.left < rect2.right)
 				&& (rect.bottom > rect2.top) && (rect.top < rect2.bottom)) {
 				expnc[i].active = false;
 				if (expnc[i].type == 3) {

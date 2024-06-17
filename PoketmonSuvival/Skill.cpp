@@ -289,8 +289,8 @@ void DrawBomb(HINSTANCE g_hInst, HDC mDC, int MAX_BOMB, Bomb* bomb, HBITMAP* hBo
 	HDC hDC = CreateCompatibleDC(mDC);
 	int bombx, bomby;
 	srand((unsigned)time(NULL));
-	bombx = rand() % 2000 + 100;
-	bomby = rand() % 1600+ 100;
+	bombx = rand() % 1100 + 100;
+	bomby = rand() % 600+ 100;
 
 	if (animationNum == 0) {
 		*hBomb = (HBITMAP)LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP222));
